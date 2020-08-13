@@ -42,7 +42,7 @@ body{
         @include direccionFlex(column);
         background-color: white;
         border-radius: 10px;
-        height: 70%;
+        height:50%;
         width: 40%;
         display: flex;
         padding: 2rem;
@@ -62,7 +62,6 @@ body{
     img{
         border-radius: 100%;
         margin: 1.5rem;
-        // height: 50%;
         width: 60%;
         display: flex;
         justify-content: center;

@@ -41,7 +41,7 @@ export default class Login extends Component {
           Burger Queen
         </h1>
         <body>
-          <img alt="" src="https://github.com/paula113/LIM012-fe-burger-queen-api-client/blob/master/src/assests/Vectorburger.svg"/>
+          <img alt="" src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/bd2da1a0fc4e35daafdb4d20d19a2c03b9610ebe/src/assests/Vectorburger.svg"/>
           {/* enviamos informacion de todo el form */}
           <form onSubmit={this.loginSubmit}>
             <input type="text" name="email" placeholder="email" value={email} onChange={this.handleChange} />

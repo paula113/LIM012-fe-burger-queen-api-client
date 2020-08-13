@@ -8,7 +8,6 @@ import Login from './Components/Login/Login';
 function App() {
   return (
     <div>
-      hola mundo
       <Login />
     </div>
   );
