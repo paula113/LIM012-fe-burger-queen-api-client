@@ -1,0 +1,16 @@
+
+body{
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        background-color: yellow;
+    }
+    img{
+        width: 50%;
+        background-color: red;
+    }
+}
