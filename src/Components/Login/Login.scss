@@ -1,16 +1,72 @@
+$baseColor: #A5E281;
+$loginBtn: #AD2700;
 
-body{
+@mixin direccionFlex ($direccion) {
     display: flex;
-    flex-direction: row;
-    width: 100vw;
+    align-content: space-between;
+    flex-direction: $direccion;
+}
+
+@mixin buttons ($color, $h, $border) {
+    border-radius: 10px;
+    background: $color;
+            height: $h;
+            padding: .5rem;
+            border: solid 2px $border;
+}
+div {
+    h1 {
+        color: $loginBtn;
+        position: relative;
+        width: 672px;
+        height: 119px;
+        right: 20px;
+        top: 20px;
+
+        font-family: American Typewriter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 5rem;
+        line-height: 119px;
+        text-align: justify;
+        letter-spacing: -0.333333px;
+    }
+}
+body{
+    @include direccionFlex(row);
+    background: $baseColor;
+    height: 80vh;
+    width: 80vmax;
+    margin: 0 auto;
     form {
+        @include direccionFlex(column);
+        background-color: white;
+        border-radius: 10px;
+        height: 70%;
+        width: 40%;
         display: flex;
-        flex-direction: column;
-        width: 50%;
-        background-color: yellow;
+        padding: 2rem;
+        input {
+            @include buttons(white, 2rem, gray);
+            margin: 20px;
+        }
+        select {
+            @include buttons(white, 3rem, gray);
+            margin: 20px;
+        }
+        button {
+            @include buttons($loginBtn, 3rem, $loginBtn);
+            color: ivory;
+        }
     }
     img{
-        width: 50%;
-        background-color: red;
+        border-radius: 100%;
+        margin: 1.5rem;
+        // height: 50%;
+        width: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
     }
 }

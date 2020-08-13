@@ -36,12 +36,12 @@ export default class Login extends Component {
     } = this.state;
     // const error = (rolesAdmin) ? '' : 'no esta autorizado';
     return (
-      <div >
+      <div>
         <h1>
           Burger Queen
         </h1>
         <body>
-          <img alt="" />
+          <img alt="" src="https://github.com/paula113/LIM012-fe-burger-queen-api-client/blob/master/src/assests/Vectorburger.svg"/>
           {/* enviamos informacion de todo el form */}
           <form onSubmit={this.loginSubmit}>
             <input type="text" name="email" placeholder="email" value={email} onChange={this.handleChange} />
@@ -59,7 +59,8 @@ export default class Login extends Component {
             <p id="error">
               error
             </p>
-            <input type="submit" value="Login" />
+            <button type="submit" value="Login" >Login</button>
+            {/* <input class="sub" type="submit" value="Login" /> */}
           </form>
         </body>
       </div>
