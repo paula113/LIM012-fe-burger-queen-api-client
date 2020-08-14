@@ -54,7 +54,7 @@ export default class Login extends Component {
     } = this.state;
     // const error = (rolesAdmin) ? '' : 'no esta autorizado';
     return (
-      <div>
+      <div id="login">
         <h1>
           Burger Queen
         </h1>
