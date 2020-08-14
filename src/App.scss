@@ -1,1 +1,18 @@
- 
+$baseColor: #A5E281;
+$baseColor-2: #AD2700;
+$baseColor-3:black;
+$loginBtn: #AD2700;
+
+@mixin direccionFlex ($direccion) {
+    display: flex;
+    align-content: space-between;
+    flex-direction: $direccion;
+}
+
+@mixin buttons ($color, $h, $border) {
+    border-radius: 10px;
+    background: $color;
+            height: $h;
+            padding: .5rem;
+            border: solid 2px $border;
+}

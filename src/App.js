@@ -1,17 +1,28 @@
-/* eslint-disable react/jsx-filename-extension */
-import React from 'react';
-// import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
-import './App.scss';
-import Login from './Components/Login/Login';
-
-function App() {
-  return (
-    <div>
-      hola mundo
-      <Login />
-    </div>
-  );
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+//componentes
+import Login from './Views/Login/Login'
+import Home from './Views/Home/Home'
+export default class App extends Component {
+  /*constructor(props) {
+    super(props);
+    this.state = {
+      isLogin = false,
+    };
+  }*/
+  render() {
+    return (
+      <Router>
+        <div>
+          <Switch>
+            <Route exact path="/">
+              <Login />
+            </Route>
+            <Route path="/home">
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </Router>)
+  }
 }
-
-export default App;
