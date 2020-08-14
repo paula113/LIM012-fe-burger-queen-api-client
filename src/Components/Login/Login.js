@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-filename-extension */
-/* eslint-disable import/no-unresolved */
 import React, { Component } from 'react';
 import './Login.scss';
 // eslint-disable-next-line react/prefer-stateless-function
@@ -14,6 +13,22 @@ export default class Login extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.loginSubmit = this.loginSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    // Simple POST request with a JSON body using fetch
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: 'admin@localhost.host',
+        password: 'changeme',
+      }),
+    };
+
+    fetch('142.93.138.137:8080/auth', requestOptions)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   }
 
   handleChange(e) {
@@ -36,7 +51,7 @@ export default class Login extends Component {
     } = this.state;
     // const error = (rolesAdmin) ? '' : 'no esta autorizado';
     return (
-      <div >
+      <div>
         <h1>
           Burger Queen
         </h1>
