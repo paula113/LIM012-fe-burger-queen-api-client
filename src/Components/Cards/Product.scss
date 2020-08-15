@@ -1,0 +1,46 @@
+@import '../../App.scss';
+
+.container {
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    @include direccionFlex(column);
+    // background-color: rgb(180, 216, 180);
+    width: 16.66rem;
+    margin: 0 .5rem 2.3rem .5rem;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 80px 80px rgba(0, 0, 0, 0.12);
+    .image-container img{
+        height: 10.66rem;
+        width: 100%;
+    }
+    h2 {
+        padding: .5rem;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 600; 
+    }
+    .Product-information{
+        display: flex;
+        padding: .5rem;
+    }
+    .Business-information p {
+        margin: 1rem;
+        line-height: 1rem;
+        font-size: .88rem;
+        font-weight: 300;
+    }
+    .AddBtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: .3rem auto;
+        @include buttons($addBtn, 2rem, $addBtn);
+        width: 5rem;
+        color: white;
+    }
+
+}

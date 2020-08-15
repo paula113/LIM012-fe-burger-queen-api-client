@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 //componentes
 import Login from './Views/Login/Login'
 import Home from './Views/Home/Home'
+import Orders from './Views/Orders/Orders';
 export default class App extends Component {
   /*constructor(props) {
     super(props);
@@ -20,6 +21,9 @@ export default class App extends Component {
             </Route>
             <Route path="/home">
               <Home />
+            </Route>
+            <Route path="/orders">
+              <Orders />
             </Route>
           </Switch>
         </div>
