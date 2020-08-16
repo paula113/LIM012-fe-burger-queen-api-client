@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 //componentes
-import Login from './Views/Login/Login'
+import Login from '../src/Routes/Auth/Login'
 import Home from './Views/Home/Home'
 export default class App extends Component {
   /*constructor(props) {

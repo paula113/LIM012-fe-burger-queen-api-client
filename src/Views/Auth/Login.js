@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import './Login.scss';
+import { getToken } from '../../utils/utils'
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Login extends Component {
   constructor(props) {
@@ -16,22 +17,11 @@ export default class Login extends Component {
     this.loginSubmit = this.loginSubmit.bind(this);
   }
 
-  /*componentDidMount() {
+ componentDidMount() {
     // Simple POST request with a JSON body using fetch
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.email,
-      }),
-    };
-
-    fetch('http://142.93.138.137:8080/auth', requestOptions)
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-      verificar si esta logueado
-  }*/
+    getToken('admin@localhost.host','changeme')
+      .then((resp) => console.log(resp.status));
+  }
 
   handleChange(e) {
     this.setState({

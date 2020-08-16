@@ -1,18 +1,16 @@
 import React, { Component } from 'react'
 import { Link , Switch, Route} from 'react-router-dom'
-import './NavBar.scss'
-import Users from '../Views/Users/Users'
-import Products from '../Views/Products/Products';
-import Orders from '../Views/Orders/Orders';
+import './Components.scss'
+import Users from '../Routes/Users/Users'
+import Products from '../Routes/Products/Products';
+import Orders from '../Routes/Orders/Orders';
 
 export default class NavBar extends Component{
 
     render(){
         const { path , url } = this.props;
-        console.log(url);
-        console.log(path);
         return (
-            <div>
+            <div className = "navBarComponent">
                  <nav>
                         <ul>
                             <li><Link to={`${url}/users`}>Users</Link></li>

@@ -12,7 +12,7 @@
         font-family: American Typewriter;
         font-style: normal;
     }
-    body{
+    .body{
         @include direccionFlex(row);
         align-items: center;
         box-sizing: border-box;

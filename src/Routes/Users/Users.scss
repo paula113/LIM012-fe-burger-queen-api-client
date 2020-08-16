@@ -1,0 +1,24 @@
+@import '../../App.scss';
+#users{
+    @include direccionFlex(column);
+    width: 100vw;
+    height: 100vh;
+    background: $baseColor-4 ;
+    form {
+        @include direccionFlex(column);
+        background-color: white;
+        border-radius: 10px;
+        display: flex;
+        padding: 2rem;
+        margin: 5%;
+        input {
+            @include buttons(white, 2rem, gray);
+            width: 70%;
+            margin: 5px;
+        }
+        button {
+            @include buttons($loginBtn, 3rem, $loginBtn);
+            color: ivory;
+        }
+    }
+}
