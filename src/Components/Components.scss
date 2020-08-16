@@ -4,12 +4,16 @@
 
 @mixin NavBar {
   nav {
+    img{
+      width: 10vw;
+    }
     overflow: hidden;
     background-color: $baseColor-2;
     position: fixed;
     top: 0;
     width: 100vw;
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
     ul {
       text-align: center;
       list-style-type: none;
@@ -33,11 +37,29 @@
 }
 
 @mixin Table {
-  background-color: $baseColor-3;
-  width: 80%;
-  tbody{
-    background-color: $baseColor-2;
-  }
+  border-collapse: collapse;
+	width: 100%;
+  margin: 0 0 2em;
+	thead {
+		border-bottom: 3px solid $baseColor-2;
+		th {
+			padding: 0.35em 0 .35em;
+       font-weight: 400;
+			text-align: left;
+			font-size: 1.25em;
+		}
+		
+	}
+
+	tbody {
+		border-bottom: 3px solid $baseColor-3;
+		tr {
+			border-bottom: 2px solid #ddd;       
+			td {
+				padding: .75em 0;
+			}
+		}
+	}
 }
 
 

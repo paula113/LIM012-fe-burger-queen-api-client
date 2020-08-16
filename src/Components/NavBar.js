@@ -12,12 +12,13 @@ export default class NavBar extends Component{
         return (
             <div className = "navBarComponent">
                  <nav>
+                 <img alt="" src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/bd2da1a0fc4e35daafdb4d20d19a2c03b9610ebe/src/assests/Vectorburger.svg"/>
                         <ul>
                             <li><Link to={`${url}/users`}>Users</Link></li>
                             <li><Link to={`${url}/products`}>Products</Link></li>
                             <li><Link to={`${url}/orders`}>Orders</Link></li>
                         </ul>
-                    </nav> 
+                </nav> 
 
                 <Switch>
                     <Route exact path={path}>

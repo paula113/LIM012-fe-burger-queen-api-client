@@ -12,13 +12,14 @@
         padding: 2rem;
         margin: 5%;
         input {
-            @include buttons(white, 2rem, gray);
-            width: 70%;
+            @include buttons(white, 1rem, gray);
+            width: 50%;
             margin: 5px;
         }
         button {
-            @include buttons($loginBtn, 3rem, $loginBtn);
+            @include buttons($loginBtn, 2rem, $loginBtn);
             color: ivory;
+            width: 100px;
         }
     }
 }
