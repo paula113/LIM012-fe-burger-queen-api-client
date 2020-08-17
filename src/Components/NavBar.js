@@ -22,7 +22,7 @@ export default class NavBar extends Component{
 
                 <Switch>
                     <Route exact path={path}>
-                        ç<Users/>
+                        <Users/>
                     </Route>
                     <Route exact path={`${path}/users`}>
                         <Users/>

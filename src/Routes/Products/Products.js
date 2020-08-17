@@ -40,9 +40,15 @@ export default class Products extends Component {
             <div id="users">
                 <h1>Products</h1>
                  <form>
-                     {info.map((info, index)=>  <input placeholder={info} key={index}></input>)}
-                     <label htmlFor="cover-img-selected"></label>
-                     <input type="file" id="cover-img-selected" name="cover-picture" accept="image/png, image/jpeg"/>
+                     {info.map((info, index)=>  {
+                         if(info === 'image'){
+                             return (<div>
+                                 <input type="file" accept="image/png, image/jpeg"/>
+                             </div>)
+                         } else{
+                             return <input placeholder={info} key={index}></input>
+                         }
+                     })}
                      <button type="submit" >Add product</button>
                  </form>
                 <Table info={info} columns={products}/>

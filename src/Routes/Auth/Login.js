@@ -36,8 +36,6 @@ export default class Login extends Component {
     });
     event.preventDefault();
   }
-
-
   
   render() {
     const { email, password,
@@ -58,7 +56,7 @@ export default class Login extends Component {
             <p id="error">
               error
             </p>
-            <button type="submit" value="Login" >Login</button>
+            <button type="submit" value="Login" onClick={this.props.auth} >Login</button>
             {/* <input class="sub" type="submit" value="Login" /> */}
           </form>
         </div >
