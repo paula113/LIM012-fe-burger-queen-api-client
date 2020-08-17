@@ -15,6 +15,7 @@ export default class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.loginSubmit = this.loginSubmit.bind(this);
   }
+
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
@@ -28,7 +29,7 @@ export default class Login extends Component {
     });
     event.preventDefault();
   }
-  
+
   render() {
     const { email, password } = this.state;
     // const error = (rolesAdmin) ? '' : 'no esta autorizado';
@@ -38,7 +39,7 @@ export default class Login extends Component {
           Burger Queen
         </h1>
         <div className="body">
-          <img alt="" src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/bd2da1a0fc4e35daafdb4d20d19a2c03b9610ebe/src/assests/Vectorburger.svg"/>
+          <img alt="" src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/bd2da1a0fc4e35daafdb4d20d19a2c03b9610ebe/src/assests/Vectorburger.svg" />
           {/* enviamos informacion de todo el form */}
           <form onSubmit={this.loginSubmit}>
             <input type="text" name="email" placeholder="email" value={email} onChange={this.handleChange} />
@@ -47,10 +48,10 @@ export default class Login extends Component {
             <p id="error">
               error
             </p>
-            <button type="submit" value="Login" onClick={this.props.auth} >Login</button>
+            <button type="submit" value="Login" onClick={this.props.auth}>Login</button>
             {/* <input class="sub" type="submit" value="Login" /> */}
           </form>
-        </div >
+        </div>
       </div>
     );
   }
