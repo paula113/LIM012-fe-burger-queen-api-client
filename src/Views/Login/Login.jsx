@@ -1,45 +1,36 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import './Login.scss';
-// import { getToken } from '../../Utils/utils'
-// eslint-disable-next-line react/prefer-stateless-function
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
-      isLogin: false,
-      isAdmin: true,
+      // isLogin: false,
+      // isAdmin: true,
       // rolesAdmin: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.loginSubmit = this.loginSubmit.bind(this);
   }
-
- /*componentDidMount() {
-    // Simple POST request with a JSON body using fetch
-    getToken('admin@localhost.host','changeme')
-      .then((resp) => console.log(resp.status));
-  }*/
-
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
-  
+
   loginSubmit(event) {
     // cambiar segun fetch
     this.setState({
-     isLogin: true,
+      // isLogin: true,
     });
     event.preventDefault();
   }
   
   render() {
-    const { email, password,
-    } = this.state;
+    const { email, password } = this.state;
     // const error = (rolesAdmin) ? '' : 'no esta autorizado';
     return (
       <div id="login">

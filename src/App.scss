@@ -3,6 +3,11 @@ $baseColor-2: #AD2700;
 $baseColor-3:black;
 $baseColor-4:white;
 $loginBtn: #AD2700;
+$addBtn: #00AD6C;
+$breakpoint-desktop: 768px;
+
+
+// @import './Components/mediaQueries';
 
 @mixin direccionFlex ($direccion) {
     display: flex;
@@ -11,7 +16,7 @@ $loginBtn: #AD2700;
 }
 
 @mixin buttons ($color, $h, $border) {
-    border-radius: 10px;
+    border-radius: 8px;
     background: $color;
             height: $h;
             padding: .5rem;
