@@ -3,32 +3,31 @@
 .container {
     * {
         margin: 0;
-        padding: 0;
+        // padding: 0;
     }
     @include direccionFlex(column);
-    // background-color: rgb(180, 216, 180);
-    width: 16.66rem;
-    margin: 0 .5rem 2.3rem .5rem;
+    width: 120px;
+    margin: .5rem;
+    background-color: seagreen;
     box-shadow:
     0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
     0 80px 80px rgba(0, 0, 0, 0.12);
+    .image-container {
+        padding: .3rem;
+    }
     .image-container img{
-        height: 10.66rem;
-        width: 100%;
+        height: 4rem;
+        margin: 0 auto;
     }
-    h2 {
-        padding: .5rem;
-        text-align: center;
-        font-size: 1.2rem;
-        font-weight: 600; 
-    }
+    
+
     .Product-information{
         display: flex;
-        padding: .5rem;
+        padding: .2rem;
     }
     .Business-information p {
-        margin: 1rem;
+        margin: .3rem;
         line-height: 1rem;
         font-size: .88rem;
         font-weight: 300;
@@ -37,10 +36,25 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: .3rem auto;
-        @include buttons($addBtn, 2rem, $addBtn);
-        width: 5rem;
+        padding: .2rem;
+        margin: .4rem auto;
+        @include buttons($addBtn, 1rem, $addBtn);
+        width: 3rem;
         color: white;
     }
+    @media only screen and (min-width: 1200px) {
 
+            width: 9rem;
+            margin: .5rem;
+            .image-container img{
+                height: 100px;
+                margin: 0 auto;
+            }
+        
+            .AddBtn {
+                @include buttons($addBtn, 2rem, $addBtn);
+                width: 5rem;
+
+            }
+    }
 }

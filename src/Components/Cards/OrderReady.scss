@@ -1,0 +1,56 @@
+@import '../../App.scss';
+
+
+.card-order-ready{
+    background-color: white;
+    // *{
+    //     margin: 0;
+    //     padding: 0;
+    // }
+    // @include direccionFlex(column); 
+    .row-title{
+        @include direccionFlex(row);
+        justify-content: space-between;
+        .row-qty{
+            width: 3rem; 
+            text-align: center;
+            padding: .3rem;
+        }
+        
+        span {
+        width: 30%;
+        margin: 0;
+        padding: .3rem;
+        border: 2px solid rgb(13, 173, 61);
+        }
+    }
+    .row-body{
+        @include direccionFlex(row);
+        justify-content: space-between;
+        .row-qty{
+            width: 3rem;
+            text-align: center;
+            padding: .3rem; 
+        }
+        span{
+        width: 30%;
+        margin: 0;
+        padding: .3rem;
+        background-color: teal;
+        border: 2px solid tomato;
+        }
+    }
+    .card-footer{
+        background-color: turquoise;
+        @include direccionFlex(row);
+        justify-content: space-between;
+        padding: .5rem;
+        button{
+            background-color: violet;
+            padding: .2rem;
+            border-radius: 8px;
+            border: 1px solid violet;
+        }
+
+    }
+}

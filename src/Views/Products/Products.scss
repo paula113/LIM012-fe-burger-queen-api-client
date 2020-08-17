@@ -1,1 +1,26 @@
-@import '../../Components/Cards/Product.scss'
+// @import '../../Components/Cards/Product.scss'
+
+.typeofProduct{
+    background-color: yellowgreen;
+    padding: .5rem;
+    margin: .5rem;
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: space-evenly;
+        h2{
+            width: 100%;
+            margin: .5rem 5rem;
+            margin-top: .5rem ;
+            margin-bottom: .5rem;
+            margin-right: 5rem;
+            margin-left: 0;
+        }
+        @media only screen and (min-width: 1200px) {
+            background-color: rgb(235, 225, 135);
+            justify-content: space-evenly;
+
+            // width: 1000px;
+            // margin: .5rem .3rem;
+        }
+}
