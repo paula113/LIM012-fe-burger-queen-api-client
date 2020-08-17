@@ -1,13 +1,16 @@
 import React from 'react';
-import { Link, Switch, Route } from 'react-router-dom';
+import {
+  Link, Switch, Route, withRouter,
+} from 'react-router-dom';
+import '@material-ui/core/Grid';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import './Components.scss';
 import Users from '../Views/Users/Users';
 import Products from '../Views/Products/Products';
 import Orders from '../Views/Orders/Orders';
 
-const NavBar = (props) => {
-  const { path, url } = props;
-  console.log(path);
+const NavBar = (prop) => {
+  const { path, url, history } = prop;
   return (
     <div className="navBarComponent">
       <nav>
@@ -17,6 +20,11 @@ const NavBar = (props) => {
           <li><Link to={`${url}/products`}>Products</Link></li>
           <li><Link to={`${url}/orders`}>Orders</Link></li>
         </ul>
+        <ExitToAppIcon onClick={() => {
+          localStorage.removeItem('token');
+          history.push('/');
+        }}
+        />
       </nav>
 
       <Switch>
@@ -36,4 +44,4 @@ const NavBar = (props) => {
     </div>
   );
 };
-export default NavBar;
+export default withRouter(NavBar);

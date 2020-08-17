@@ -7,7 +7,10 @@ const getUsers = (token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  return fetch('http://142.93.138.137:8080/auth', requestOptions);
+  return fetch('http://142.93.138.137:8080/auth', requestOptions)
+    .then((resp) => {
+      resp.json();
+    });
 };
 export {
   getUsers,
