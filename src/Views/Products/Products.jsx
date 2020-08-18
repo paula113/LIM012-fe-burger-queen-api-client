@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Table from '../../Components/Table';
+import Pagination from '../../Components/Pagination';
 
 export default class Products extends Component {
   constructor(props) {
@@ -54,6 +55,7 @@ export default class Products extends Component {
           <button type="submit">Add product</button>
         </form>
         <Table info={info} columns={products} />
+        <Pagination />
       </div>
     );
   }

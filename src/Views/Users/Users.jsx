@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
+import Pagination from '../../Components/Pagination';
 
 export default class Users extends Component {
   constructor(props) {
@@ -48,6 +49,7 @@ export default class Users extends Component {
           <button type="submit">Add user</button>
         </form>
         <Table info={info} columns={users} />
+        <Pagination />
       </div>
     );
   }

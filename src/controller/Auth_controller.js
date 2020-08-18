@@ -4,16 +4,16 @@ const getToken = (email, password) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   };
-  console.log(requestOptions.body);
-  return fetch('http://142.93.138.137:8080/auth', requestOptions)
+  return fetch('http://142.93.138.137:8000/auth', requestOptions)
     .then((resp) => {
+      console.log(resp.status);
       switch (resp.status) {
         case 200:
           return resp.json();
         case 400:
           return Promise.reject(new Error('Insert email and password'));
-        case 401:
-          return Promise.reject(new Error('Invalid user'));
+        case 404:
+          return Promise.reject(new Error('Invalid user or password'));
         default:
           return Promise.reject(new Error(resp.statusText));
       }

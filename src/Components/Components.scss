@@ -63,7 +63,24 @@
 }
 
 
+@mixin Pagination {
+  ul{
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+  }
 
+  ul li {display: inline;}
+
+  ul li a {
+      color: $baseColor-3;
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 10px;
+  }
+  ul li a:hover:not(.active) {background-color:$baseColor-2;}
+}
 
 
 // ---
@@ -73,4 +90,8 @@
 
 .tableComponent{
   @include Table()
+}
+
+.paginationComponent{
+  @include Pagination()
 }
