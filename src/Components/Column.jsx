@@ -1,17 +1,19 @@
-import React, { Component } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
-export default class Column extends Component {
-    render() {
-        const { info } = this.props;
-        const arrayInfo = Object.values(info);
-        console.log(arrayInfo);
-        return (
-                <tr >
-                    {arrayInfo.map((info,index) => <td key={info+index}>{info}</td>)}
-                    <td><FontAwesomeIcon icon={faTrash} /><FontAwesomeIcon icon={faEdit} /></td>
-                </tr>
-            )
-    }
-}
+const Column = (prop) => {
+  const { info } = prop;
+  const arrayInfo = Object.values(info);
+  return (
+    <tr>
+      {arrayInfo.map((information, index) => <td key={index}>{information}</td>)}
+      <td>
+        <FontAwesomeIcon icon={faTrash} />
+        <FontAwesomeIcon icon={faEdit} />
+      </td>
+    </tr>
+  );
+};
+
+export default Column;
