@@ -4,7 +4,7 @@
 
 .main-section{
     @include direccionFlex(row);
-    background-color: gray;
+    background-color: rgb(177, 177, 177);
     // width: 100%;
 
     .Order-taking{
@@ -15,7 +15,7 @@
         width: 50%;
         margin: .5rem;
         padding: .3rem;
-        background-color: rgb(216, 102, 231);
+        background-color: rgb(255, 255, 255);
         @include direccionFlex(column);
         .order-information{
             width: 100%;
@@ -39,26 +39,23 @@
             border: 2px solid black;
         }
         .Total{
-            color: yellow;
+            // color: yellow;
             text-align: right;
             margin: .5rem;
         }
         .Buttons{  
-            background-color: salmon;
             @include direccionFlex(row); 
             justify-content: space-evenly;
             .CancelBtn{
                 @include buttons($loginBtn, 3rem,$loginBtn);
                 color: white;
                 width: 40%;
-                // margin: .2rem 1.5rem;
             }
     
             .SendBtn{
                 @include buttons($addBtn, 3rem, $addBtn);
                 color: white;
                 width: 40%;
-                // margin: .2rem;
     
             }
         }
@@ -66,7 +63,7 @@
     }
     @media only screen and (min-width: 1200px) {
         .Order-taking{
-            background-color: slateblue;
+            // background-color: slateblue;
             width: 35%;
         }
         

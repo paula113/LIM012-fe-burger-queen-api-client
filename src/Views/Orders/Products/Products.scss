@@ -1,11 +1,15 @@
 // @import '../../Components/Cards/Product.scss'
 
 .typeofProduct{
-    background-color: yellowgreen;
+    background-color: rgb(255, 255, 254);
     padding: .5rem;
     margin: .5rem;
     display: flex;
     flex-wrap: wrap;
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 80px 80px rgba(0, 0, 0, 0.12);
 
     justify-content: space-evenly;
         h2{
@@ -17,7 +21,7 @@
             margin-left: 0;
         }
         @media only screen and (min-width: 1200px) {
-            background-color: rgb(235, 225, 135);
+            // background-color: rgb(235, 225, 135);
             justify-content: space-evenly;
 
             // width: 1000px;

@@ -7,10 +7,12 @@
     //     margin: 0;
     //     padding: 0;
     // }
-    // @include direccionFlex(column); 
+    // @include direccionFlex(column);
+    border: 1px solid rgb(185, 185, 185); 
     .row-title{
         @include direccionFlex(row);
         justify-content: space-between;
+        border-bottom: 2px solid rgb(185, 185, 185); 
         .row-qty{
             width: 3rem; 
             text-align: center;
@@ -21,7 +23,7 @@
         width: 30%;
         margin: 0;
         padding: .3rem;
-        border: 2px solid rgb(13, 173, 61);
+        // border: 2px solid rgb(112, 114, 112 );
         }
     }
     .row-body{
@@ -36,20 +38,21 @@
         width: 30%;
         margin: 0;
         padding: .3rem;
-        background-color: teal;
-        border: 2px solid tomato;
+        // background-color: teal;
+        // border: 2px solid rgb(185, 185, 185);
         }
+        border-bottom: 2px solid rgb(185, 185, 185); 
+
     }
     .card-footer{
-        background-color: turquoise;
         @include direccionFlex(row);
         justify-content: space-between;
         padding: .5rem;
         button{
-            background-color: violet;
+            background-color: $loginBtn;
             padding: .2rem;
             border-radius: 8px;
-            border: 1px solid violet;
+            border: 2px solid $loginBtn;
         }
 
     }
