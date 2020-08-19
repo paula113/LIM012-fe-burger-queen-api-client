@@ -36,8 +36,6 @@
         button {
             @include buttons($loginBtn, 2rem, $baseColor-4);
             color: ivory;
-            // width: .1rem;
-    
         }
 
     }
