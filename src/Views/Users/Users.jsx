@@ -34,7 +34,7 @@ const users = usersData.map((user) => {
 });
 
 const Users = () => {
-  const initUser = { email: '', role: '' };
+  const initUser = { email: '', password: '', role: '' };
   const [user, setUser] = useState(initUser);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,19 +48,25 @@ const Users = () => {
     const token = localStorage.getItem('token');
     console.log(token);
     const roles = (user.role === 'admin') ? 'admin' : 'service';
-    if (token && roles) {
-      return postbyKeyword(token, 'user', 'email', user);
-    }
+    // if (token && roles) {
+    //   postbyKeyword(token, 'email', user.email);
+    // }
     // return postbyKeyword(token, route, key, data);
   };
   return (
     <div id="users">
-      <h1>Users</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input placeholder="Email" name="email" value={user.email} onChange={handleChange} />
-        <input placeholder="Rol" name="role" value={user.role} onChange={handleChange} />
-        <button type="submit">Add user</button>
-      </form>
+      <div>
+        <img src="https://github.com/paula113/LIM012-fe-burger-queen-api-client/blob/master/src/assests/istockphoto-1049751988-612x612-removebg-preview 1.svg" alt="" />
+        <form className="form" onSubmit={(e) => handleSubmit(e)}>
+          <input placeholder="Email" type="email" name="email" value={user.email} onChange={handleChange} />
+          <input placeholder="Password" name="password" type="password" value={user.password} onChange={handleChange} />
+          <select>
+            <option value={user.role}>Service</option>
+            <option value={user.role}>Admin</option>
+          </select>
+          <button type="submit">Add user</button>
+        </form>
+      </div>
       <Table info={info} columns={users} />
       <Pagination />
     </div>

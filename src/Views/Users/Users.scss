@@ -1,25 +1,34 @@
 @import '../../App.scss';
 #users{
+    *{
+        padding: 0;
+        margin: 0;
+    }
     @include direccionFlex(column);
     width: 100vw;
     height: 100vh;
     background: $baseColor-4 ;
-    form {
+    .form {
         @include direccionFlex(column);
-        background-color: white;
+        background-color: #e0b61f;
         border-radius: 10px;
-        display: flex;
-        padding: 2rem;
-        margin: 5%;
+        padding: .3rem;
+        margin: 5rem 15rem;
         input {
             @include buttons(white, 1rem, gray);
-            width: 50%;
-            margin: 5px;
+            margin: .2rem;
+        }
+        select {
+            @include buttons(white, 2.5rem, gray);
+            margin: .2rem;
+            color: gray;
         }
         button {
-            @include buttons($loginBtn, 2rem, $loginBtn);
+            @include buttons($loginBtn, 2rem, $baseColor-4);
             color: ivory;
-            width: 100px;
+            // width: .1rem;
+    
         }
+
     }
 }

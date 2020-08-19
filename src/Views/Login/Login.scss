@@ -1,54 +1,52 @@
 @import '../../App.scss';
 
-#login {
-    width: 100vw;
-    height: 100vh;
-    background: $baseColor;
+div {
+    // width: 100%;
+    // background: $baseColor;
+    *{
+        margin: 0;
+        padding: 0;
+    }
     h1 {
-        color: $loginBtn;
-        width: 100vw;
-        height: 10vh;
-        position: relative;
-        font-family: American Typewriter;
+        color: $baseColor-2;
+        position: absolute;
+        top: 2rem;
+        left: 4rem;
+        font-family: $title;
         font-style: normal;
+        font-size: 3rem;
     }
     .body{
-        @include direccionFlex(row);
-        align-items: center;
-        box-sizing: border-box;
-        width: 100vw;
-        height: 90vh;
-        margin: 0 auto;
         background-color: $baseColor;
+        padding: 2rem;
+        @include direccionFlex(row);
+        height: 100vmax;
         form {
+            margin-left: 3rem;
             @include direccionFlex(column);
             background-color: white;
             border-radius: 10px;
-            height:50%;
+            height:  30%;
             width: 40%;
             display: flex;
             padding: 2rem;
-            margin: 5%;
-            input {
-                @include buttons(white, 2rem, gray);
-                margin: 20px;
-            }
-            select {
-                @include buttons(white, 3rem, gray);
-                margin: 20px;
-            }
-            button {
-                @include buttons($loginBtn, 3rem, $loginBtn);
-                color: ivory;
-            }
+            margin: 5rem auto;
+            @include forms(auto, 20px);
         }
         img{
-            border-radius: 100%;
-            margin: 1.5rem;
-            width: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border-radius: 10%;
+            background-color: $baseColor-3;
+            height: 15rem;
+            width: 40%;
+            position: relative;
+            margin: 1rem;
+            top: 13rem;
+        }
+        p{
+            color: $loginBtn;
+            font-family: $title;
+            text-align: center;
+
         }
     }
 }
