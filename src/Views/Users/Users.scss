@@ -8,19 +8,29 @@
     width: 100vw;
     height: 100vh;
     background: $baseColor-4 ;
+    .containertop{
+        @include direccionFlex(row);
+        justify-content: space-around;
+        img{
+            width: 250px;
+            height: 250px;
+            margin: 5rem 0rem;
+        }
+    }
     .form {
         @include direccionFlex(column);
         background-color: #e0b61f;
         border-radius: 10px;
-        padding: .3rem;
-        margin: 5rem 15rem;
+        padding: .5rem;
+        margin: 5rem 5rem;
+        width: 50%;
         input {
             @include buttons(white, 1rem, gray);
-            margin: .2rem;
+            margin: .5rem;
         }
         select {
             @include buttons(white, 2.5rem, gray);
-            margin: .2rem;
+            margin: .5rem;
             color: gray;
         }
         button {

@@ -55,8 +55,7 @@ const Users = () => {
   };
   return (
     <div id="users">
-      <div>
-        <img src="https://github.com/paula113/LIM012-fe-burger-queen-api-client/blob/master/src/assests/istockphoto-1049751988-612x612-removebg-preview 1.svg" alt="" />
+      <div className="containertop">
         <form className="form" onSubmit={(e) => handleSubmit(e)}>
           <input placeholder="Email" type="email" name="email" value={user.email} onChange={handleChange} />
           <input placeholder="Password" name="password" type="password" value={user.password} onChange={handleChange} />
@@ -66,6 +65,8 @@ const Users = () => {
           </select>
           <button type="submit">Add user</button>
         </form>
+        <img src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/e60c452ad793ea90d9e698f0fef3d6d190862ce8/src/assests/istockphoto-1049751988-612x612-removebg-preview%201.svg" alt="" />
+
       </div>
       <Table info={info} columns={users} />
       <Pagination />
