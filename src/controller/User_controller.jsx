@@ -13,7 +13,7 @@ const getUsers = (token) => {
     });
 };
 
-const postbyKeyword = (token, key, data) => {
+const postbyKeyword = (token, data) => {
   const requestOptions = {
     method: 'POST',
     mode: 'no-cors',
@@ -23,10 +23,8 @@ const postbyKeyword = (token, key, data) => {
     },
     body: JSON.stringify(data),
   };
-  return fetch(`http://142.93.138.137:8080/users/${key}`, requestOptions)
+  return fetch('http://142.93.138.137:8080/users', requestOptions)
     .then((resp) => {
-      // console.log(data);
-      console.log(resp);
       resp.json();
     });
 };

@@ -4,6 +4,7 @@
 
 @mixin NavBar {
   nav {
+    @include direccionFlex(row);
     img{
       width: 10vw;
     }
@@ -17,7 +18,8 @@
     ul {
       text-align: center;
       list-style-type: none;
-      margin: 0;
+      margin-top: .3rem;
+      // margin: 0;
       padding: 15px;
       li {
         display: inline;
@@ -32,6 +34,14 @@
           }
         }
       }
+    }
+    .icon{
+
+      color: white;
+      height: 2.5rem;
+      width: 2.5rem;
+      margin-right: 2rem;
+      margin-top: .3rem;
     }
   } 
 }

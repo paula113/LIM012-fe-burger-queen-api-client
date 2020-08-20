@@ -34,24 +34,22 @@ const users = usersData.map((user) => {
 });
 
 const Users = () => {
-  const initUser = { email: '', password: '', role: '' };
+  const initUser = { email: '', password: '', roles: { admin: '' } };
   const [user, setUser] = useState(initUser);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // console.log(name);
-    // console.log(value);
+    console.log(name);
+    console.log(value);
     setUser({ ...user, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    console.log(token);
-    const roles = (user.role === 'admin') ? 'admin' : 'service';
-    // if (token && roles) {
-    //   postbyKeyword(token, 'email', user.email);
-    // }
-    // return postbyKeyword(token, route, key, data);
+    const role = (user.roles === 'Admin') ? true : false;
+    postbyKeyword(token, user).then((data) => console.log(data))
+    // handleChange(e, postbyKeyword(token, user));
+
   };
   return (
     <div id="users">
@@ -59,9 +57,9 @@ const Users = () => {
         <form className="form" onSubmit={(e) => handleSubmit(e)}>
           <input placeholder="Email" type="email" name="email" value={user.email} onChange={handleChange} />
           <input placeholder="Password" name="password" type="password" value={user.password} onChange={handleChange} />
-          <select>
-            <option value={user.role}>Service</option>
-            <option value={user.role}>Admin</option>
+          <select name="roles" value={user.roles.admin} onChange={handleChange}>
+            <option value='Service'>Service</option>
+            <option value='Admin'>Admin</option>
           </select>
           <button type="submit">Add user</button>
         </form>

@@ -11,6 +11,8 @@
     .containertop{
         @include direccionFlex(row);
         justify-content: space-around;
+        margin: 0 auto;
+        width: 100%;
         img{
             width: 250px;
             height: 250px;
@@ -23,7 +25,7 @@
         border-radius: 10px;
         padding: .5rem;
         margin: 5rem 5rem;
-        width: 50%;
+        width: 40%;
         input {
             @include buttons(white, 1rem, gray);
             margin: .5rem;

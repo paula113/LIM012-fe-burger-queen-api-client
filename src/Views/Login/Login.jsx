@@ -24,7 +24,7 @@ const Login = (prop) => {
       <h1>
         Burger Queen
       </h1>
-      <div className="body">
+      <div id="login-form" className="body">
         <img alt="" src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/bd2da1a0fc4e35daafdb4d20d19a2c03b9610ebe/src/assests/Vectorburger.svg" />
         {/* enviamos informacion de todo el form */}
         <form onSubmit={(event) => loginSubmit(event)}>
