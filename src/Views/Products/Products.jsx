@@ -40,7 +40,7 @@ export default class Products extends Component {
     ];
     return (
       <div id="users">
-        <h1>Products</h1>
+
         <form>
           {info.map((info, index) => {
             if (info === 'image') {

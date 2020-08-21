@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import { getUsers, updateUserByKeyword } from '../../controller/User_controller';
+import { getUsers, updateUserByKeyword } from '../../controller/user';
 // import postbyKeyword from '../../controller/User_controller';
 
 const info = ['_id', 'email', 'rol'];
