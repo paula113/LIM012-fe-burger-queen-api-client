@@ -8,7 +8,10 @@ const getUsers = (token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  return fetch(`${url}/users`, requestOptions);
+  return fetch(`${url}/users`, requestOptions)
+  .then((resp) => {
+    return resp;
+  });
 };
 
 const getUserByKeyword = (token, keyword) => {
@@ -29,7 +32,7 @@ const postbyKeyword = (token, body) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${body}`,
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(body),
   };
   return fetch('${url}/users', requestOptions)
     .then((resp) => {

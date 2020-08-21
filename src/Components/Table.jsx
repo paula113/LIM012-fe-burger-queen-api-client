@@ -3,7 +3,7 @@ import './Components.scss';
 import Column from './Column';
 
 const Table = (props) => {
-  const { info, columns, put } = props;
+  const { info } = props;
   return (
     <table className="tableComponent">
       <thead>
@@ -12,7 +12,7 @@ const Table = (props) => {
         </tr>
       </thead>
       <tbody>
-        {columns.map((column) => <Column key={column._id} info={column} put={put}/>)}
+        {/* {columns.map((column) => <Column key={column._id} info={column} put={put}/>)} */}
       </tbody>
     </table>
   );

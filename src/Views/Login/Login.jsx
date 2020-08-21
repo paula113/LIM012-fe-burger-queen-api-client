@@ -11,8 +11,11 @@ const Login = (prop) => {
 
   const loginSubmit = (event) => {
     event.preventDefault();
+    console.log('1');
     getToken(email, password).then((res) => {
       const { token } = res;
+      console.log(token);
+      console.log('2');
       localStorage.setItem('token', token);
       history.push('/home');
     }, (error) => {
@@ -20,7 +23,7 @@ const Login = (prop) => {
     });
   };
   return (
-    <div id="login">
+    <div className="login">
       <h1>
         Burger Queen
       </h1>

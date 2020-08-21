@@ -3,18 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const Column = (prop) => {
-  const token = localStorage.getItem('token');
-  const { info, put } = prop;
+  // const token = localStorage.getItem('token');
+  const { info } = prop;
   const arrayInfo = Object.values(info);
-  const toEdit = {
-    roles: { admin: true },
-  };
+  // const toEdit = {
+  //   roles: { admin: true },
+  // };
   return (
     <tr>
-      {arrayInfo.map((information) => <td key={information._id}>{information}</td>)}
+      {/* {arrayInfo.map((information) => <td key={information._id}>{information}</td>)} */}
       <td>
         <FontAwesomeIcon icon={faTrash} />
-        <FontAwesomeIcon icon={faEdit} onClick={() => put('email')} />
+        <FontAwesomeIcon icon={faEdit} />
       </td>
     </tr>
   );

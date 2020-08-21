@@ -5,49 +5,54 @@ import Pagination from '../../Components/Pagination';
 import { getUsers, updateUserByKeyword } from '../../controller/user';
 // import postbyKeyword from '../../controller/User_controller';
 
-const info = ['_id', 'email', 'rol'];
-const token = localStorage.getItem('token');
-
 const Users = () => {
+
+  const token = localStorage.getItem('token');
   // state
   const [users, setUsers] = useState([]);
+  const info = ['id', 'email', 'rol'];
+  // const initUser = { email: '', password: '', roles: { admin: '' } };
+  // const [newuser, setNewUser] = useState(initUser);
+  
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   console.log(name);
+  //   console.log(value);
+  //   setUser({ ...user, [name]: value });
+  // };
 
-  getUsers(token)
-    .then((userData) => {
-      setUsers(userData);
-    });
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const token = localStorage.getItem('token');
+  //   const role = (user.roles === 'Admin') ? true : false;
+    // postbyKeyword(token, user).then((data) => console.log(data))
+    // handleChange(e, postbyKeyword(token, user));
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    // console.log(name);
-    // console.log(value);
-    setUsers({ ...users, [name]: value });
-  };
+  // };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // const roles = (user.role === 'admin') ? 'admin' : 'service';
-    // return postbyKeyword(token, route, key, data);
-  };
 
   // crud functions
-  const putUserToTable = (keyword) => {
-    const toEdit = users.filter((user) => (user.email === keyword));
-    updateUserByKeyword(token, keyword, toEdit)
-      .then((userUpdated) => {
-        const usersUpdated = users.map((user) => ((user.email === keyword) ? userUpdated : user));
-        setUsers(usersUpdated);
-      });
-  };
+  // const putUserToTable = (keyword) => {
+  //   const toEdit = users.filter((user) => (user.email === keyword));
+  //   updateUserByKeyword(token, keyword, toEdit)
+  //     .then((userUpdated) => {
+  //       const usersUpdated = users.map((user) => ((user.email === keyword) ? userUpdated : user));
+  //       setUsers(usersUpdated);
+  //     });
+  // };
   return (
-    <div id="users">
+    <div className="users">
       <h1>Users</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <input id="email" placeholder="Email" name="email" value={users.email} onChange={handleChange} />
-        <input id="role" placeholder="Rol" name="role" value={users.role} onChange={handleChange} />
-        <button type="submit">Add user</button>
-      </form>
-      <Table info={info} columns={users} put={putUserToTable} />
+      <form className="form">
+          <input placeholder="Email" type="email" name="email" />
+          <input placeholder="Password" name="password" type="password" />
+          <select name="roles">
+            <option value='service'>Service</option>
+            <option value='admin'>Admin</option>
+          </select>
+          <button type="submit">Add user</button>
+        </form>
+      <Table info={info}/>
       <Pagination />
     </div>
   );
