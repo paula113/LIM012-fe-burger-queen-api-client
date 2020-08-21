@@ -1,12 +1,13 @@
+import { url } from './url';
+
 const getToken = (email, password) => {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   };
-  return fetch('http://142.93.138.137:8000/auth', requestOptions)
+  return fetch(`${url}/auth`, requestOptions)
     .then((resp) => {
-      console.log(resp.status);
       switch (resp.status) {
         case 200:
           return resp.json();
@@ -19,4 +20,4 @@ const getToken = (email, password) => {
       }
     });
 };
-export { getToken };
+export default { getToken };

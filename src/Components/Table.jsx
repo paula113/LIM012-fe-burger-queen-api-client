@@ -3,16 +3,16 @@ import './Components.scss';
 import Column from './Column';
 
 const Table = (props) => {
-  const { info, columns } = props;
+  const { info, columns, put } = props;
   return (
     <table className="tableComponent">
       <thead>
         <tr>
-          {info.map((info, index) => <th key={index}>{info}</th>)}
+          {info.map((infot, index) => <th key={index}>{infot}</th>)}
         </tr>
       </thead>
       <tbody>
-        {columns.map((column) => <Column key={column._id} info={column} />)}
+        {columns.map((column) => <Column key={column._id} info={column} put={put}/>)}
       </tbody>
     </table>
   );

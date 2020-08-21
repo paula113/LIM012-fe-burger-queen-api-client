@@ -9,7 +9,6 @@ import Orders from './Views/Orders/Orders';
 
 const App = () => {
   const token = localStorage.getItem('token');
-  console.log(token);
   const isLogin = !!token;
   return (
     <Router>

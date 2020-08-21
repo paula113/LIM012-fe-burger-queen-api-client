@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import './Login.scss';
-import { getToken } from '../../controller/Auth_controller';
+import { getToken } from '../../controller/auth';
 
 const Login = (prop) => {
   const { history } = prop;

@@ -2,66 +2,52 @@ import React, { useState } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import postbyKeyword from '../../controller/User_controller';
+import { getUsers, updateUserByKeyword } from '../../controller/User_controller';
+// import postbyKeyword from '../../controller/User_controller';
 
 const info = ['_id', 'email', 'rol'];
-const usersData = [
-  {
-    _id: 1001001,
-    email: 'yudith.cumba@gmail.com',
-    roles: {
-      admin: true,
-    },
-  },
-  {
-    _id: 1001002,
-    email: 'user2@gmail.com',
-    roles: {
-      admin: false,
-    },
-  },
-  {
-    _id: 1001003,
-    email: 'user3@gmail.com',
-    roles: {
-      admin: false,
-    },
-  },
-];
-const users = usersData.map((user) => {
-  user.roles = (user.roles.admin) ? 'admin' : 'service';
-  return user;
-});
+const token = localStorage.getItem('token');
 
 const Users = () => {
-  const initUser = { email: '', role: '' };
-  const [user, setUser] = useState(initUser);
+  // state
+  const [users, setUsers] = useState([]);
+
+  getUsers(token)
+    .then((userData) => {
+      setUsers(userData);
+    });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     // console.log(name);
     // console.log(value);
-    setUser({ ...user, [name]: value });
+    setUsers({ ...users, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-    console.log(token);
-    const roles = (user.role === 'admin') ? 'admin' : 'service';
-    if (token && roles) {
-      return postbyKeyword(token, 'user', 'email', user);
-    }
+    // const roles = (user.role === 'admin') ? 'admin' : 'service';
     // return postbyKeyword(token, route, key, data);
+  };
+
+  // crud functions
+  const putUserToTable = (keyword) => {
+    const toEdit = users.filter((user) => (user.email === keyword));
+    updateUserByKeyword(token, keyword, toEdit)
+      .then((userUpdated) => {
+        const usersUpdated = users.map((user) => ((user.email === keyword) ? userUpdated : user));
+        setUsers(usersUpdated);
+      });
   };
   return (
     <div id="users">
       <h1>Users</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <input placeholder="Email" name="email" value={user.email} onChange={handleChange} />
-        <input placeholder="Rol" name="role" value={user.role} onChange={handleChange} />
+        <input id="email" placeholder="Email" name="email" value={users.email} onChange={handleChange} />
+        <input id="role" placeholder="Rol" name="role" value={users.role} onChange={handleChange} />
         <button type="submit">Add user</button>
       </form>
-      <Table info={info} columns={users} />
+      <Table info={info} columns={users} put={putUserToTable} />
       <Pagination />
     </div>
   );
