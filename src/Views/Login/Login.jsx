@@ -15,8 +15,6 @@ const Login = (prop) => {
     console.log('1');
     getToken(email, password).then((res) => {
       const { token } = res;
-      console.log(token);
-      console.log('2');
       localStorage.setItem('token', token);
       history.push('/home');
     }, (error) => {

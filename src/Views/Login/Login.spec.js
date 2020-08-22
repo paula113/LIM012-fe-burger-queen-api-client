@@ -61,8 +61,6 @@ describe('Login', () => {
   // otherwise you could use expect(alert.textContent).toMatch(/congrats/i)
   // but jest-dom will give you better error messages which is why it's recommended
     await localStorage.getItem('token');
-    console.log('3');
-    console.log(localStorage.getItem('token'));
     //expect(token).toEqual('fake_user_token');
     // expect(getByText('User')).toBeInTheDocument();
     await screen.findByText(/Add user/i);
