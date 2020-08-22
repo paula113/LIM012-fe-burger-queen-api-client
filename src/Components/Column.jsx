@@ -5,7 +5,7 @@ import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 const Column = (prop) => {
   // const token = localStorage.getItem('token');
   const { data } = prop;
-  console.log(data);
+  // console.log(data);
   const arrayData = Object.values(data);
   // const toEdit = {
   //   roles: { admin: true },

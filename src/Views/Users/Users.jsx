@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import { getUsers } from '../../controller/user';
+import { getUsers, postbyKeyword } from '../../controller/user';
 
 const Users = () => {
-  // state
-  //const [users, setUsers] = useState([]);
 
   const headTable= ['id', 'Email', 'Rol'];
-  console.log('1');
   // getUser
     const [users, setUsers] = useState([]);
     useEffect(() => {
@@ -19,22 +16,67 @@ const Users = () => {
       }
       fetchData();
     },[]);
+
+  const initUser = { email: '', password: '', roles: '' };
+  const [newuser, setNewUser] = useState(initUser);
+  
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setNewUser({ ...newuser, [name]: value });
+    };
+
+    // useEffect(() => {
+    //   console.log(newuser);
+    //  }, [newuser]);
+
+    const handleSubmit = (e) => {
+      (newuser.roles ? newuser.roles = { admin: true } : newuser.roles = { admin: false } )
+      console.log(newuser);
+      async function fetchData() { 
+        const newpost = await postbyKeyword(newuser);
+        // setUsers.push(newuser)
+        // console.log(newpost);
+      }
+      fetchData();
+      e.preventDefault();
+    };
+   
+
+        return (
+          <div className="users">
+              <div className="containertop">
+              <img src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/e60c452ad793ea90d9e698f0fef3d6d190862ce8/src/assests/istockphoto-1049751988-612x612-removebg-preview%201.svg" alt="" />
+
+            <form className="form" onSubmit={(e) => handleSubmit(e)}>
+              <input placeholder="Email" type="email" name="email" value={newuser.email} onChange={handleChange} />
+              <input placeholder="Password" name="password" type="password" value={newuser.password} onChange={handleChange} minLength={6} required />
+              <select name="roles" value={newuser.roles} onChange={handleChange}>
+                <option value={false}>Service</option>
+                <option value={true}>Admin</option>
+              </select>
+              <button type="submit">Add user</button>
+            </form>
+            </div>
+            <Table head={headTable} arrayData={users}/>
+            <Pagination />
+          </div>
+        );
+};
+
+export default Users;
+
   // const initUser = { email: '', password: '', roles: { admin: '' } };
   // const [newuser, setNewUser] = useState(initUser);
   
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   console.log(name);
-  //   console.log(value);
-  //   setUser({ ...user, [name]: value });
-  // };
+
 
   // const handleSubmit = (e) => {
-  //   e.preventDefault();
   //   const token = localStorage.getItem('token');
   //   const role = (user.roles === 'Admin') ? true : false;
-    // postbyKeyword(token, user).then((data) => console.log(data))
-    // handleChange(e, postbyKeyword(token, user));
+  //   e.preventDefault();
+  
+  //   // postbyKeyword(token, user).then((data) => console.log(data))
+  //   // handleChange(e, postbyKeyword(token, user));
 
   // };
 
@@ -48,22 +90,3 @@ const Users = () => {
   //       setUsers(usersUpdated);
   //     });
   // };
-        return (
-          <div className="users">
-            <h1>Users</h1>
-            <form >
-                <input placeholder="Email" type="email" name="email" />
-                <input placeholder="Password" name="password" type="password" />
-                <select name="roles">
-                  <option value='service'>Service</option>
-                  <option value='admin'>Admin</option>
-                </select>
-                <button type="submit">Add user</button>
-            </form>
-            <Table head={headTable} arrayData={users}/>
-            <Pagination />
-          </div>
-        );
-};
-
-export default Users;

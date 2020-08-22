@@ -28,20 +28,32 @@ const getUserByKeyword = (token, keyword) => {
   return fetch(`${url}/users/${keyword}`, requestOptions);
 };
 
-const postbyKeyword = (token, body) => {
+const postbyKeyword = async (body) => {
   const requestOptions = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${body}`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify(body),
   };
-  return fetch(`${url}/users`, requestOptions)
-    .then((resp) => {
-      resp.json();
-    });
+ const data = await fetch(`${url}/users`, requestOptions);
+ const dataJson = await data.json();
+//  console.log(dataJson);
+ return dataJson
+//  const users = dataJson
 };
+
+// useEffect(() => {
+//   async function fetchData() {
+//     const res = await fetch('http://134.122.82.187:8000/users');
+//     res
+//       .json()
+//       .then(res => setPlanets(res))
+//       .catch(err => setErrors(err));
+//   }
+//   fetchData();
+// }, []);
 
 const updateUserByKeyword = (token, keyword, body) => {
   const requestOptions = {
