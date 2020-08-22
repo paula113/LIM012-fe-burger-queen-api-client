@@ -4,9 +4,6 @@ import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
 import { getUsers, postbyKeyword, updateUserByKeyword } from '../../controller/user';
 
-// const Users = () => {
-
-//   const headTable= ['id', 'Email', 'Rol'];
 
 const Users = () => {
   // state
@@ -20,9 +17,6 @@ const Users = () => {
         const userData = await getUsers(localStorage.getItem('token'));
         setUsers(userData)
       }
-    //   fetchData();
-    // },[users]);
-
       fetchUser();
     },[users]);
 
@@ -47,16 +41,7 @@ const Users = () => {
       setUsers(newUsers);
       }
     };
-  // const initUser = { email: '', password: '', roles: { admin: '' } };
-  // const [newuser, setNewUser] = useState(initUser);
-  
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   console.log(name);
-  //   console.log(value);
-  //   setUser({ ...user, [name]: value });
-  // };
-
+//-------------------------POST NEW USER------------------------------//
   const initUser = { email: '', password: '', roles: '' };
   const [newuser, setNewUser] = useState(initUser);
     const handleChange = (e) => {
@@ -73,8 +58,7 @@ const Users = () => {
       fetchData();
       e.preventDefault();
     };
-   
-
+    
         return (
           <div className="users">
               <div className="containertop">
