@@ -2,23 +2,44 @@ import React, { useState, useEffect } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import { getUsers } from '../../controller/user';
+import { getUsers, updateUserByKeyword } from '../../controller/user';
 
 const Users = () => {
   // state
-  //const [users, setUsers] = useState([]);
-
+  const [users, setUsers] = useState([]);
+  const [dataToPut, setDataToPut] = useState({});
   const headTable= ['id', 'Email', 'Rol'];
-  console.log('1');
+
   // getUser
-    const [users, setUsers] = useState([]);
     useEffect(() => {
-      async function fetchData(){
+      async function fetchUser(){
         const userData = await getUsers(localStorage.getItem('token'));
         setUsers(userData)
       }
-      fetchData();
+      fetchUser();
     },[]);
+
+    function putData(data){
+      document.getElementById('email').value= data.email;
+      document.getElementById('submitUser').textContent = 'Save changes';
+      setDataToPut(data);
+    }
+    async function userSubmit(event) {
+      event.preventDefault();
+      const button = document.getElementById('submitUser');
+      if(button.textContent = 'Save changes'){
+        const newEmail = document.getElementById('email').value;
+        const newRol = document.getElementById('roles').value;
+        const body = {
+          email : newEmail,
+          roles : { admin : (newRol === 'admin') }
+        } 
+      const newUser = await updateUserByKeyword(localStorage.getItem('token'),dataToPut.email, body);
+      const newUsers = await users.map((user) => (user.email === dataToPut.email)? newUser : user);
+      console.log(newUsers);
+      setUsers(newUsers);
+      }
+    };
   // const initUser = { email: '', password: '', roles: { admin: '' } };
   // const [newuser, setNewUser] = useState(initUser);
   
@@ -37,6 +58,7 @@ const Users = () => {
     // handleChange(e, postbyKeyword(token, user));
 
   // };
+  
 
 
   // crud functions
@@ -51,16 +73,15 @@ const Users = () => {
         return (
           <div className="users">
             <h1>Users</h1>
-            <form >
-                <input placeholder="Email" type="email" name="email" />
-                <input placeholder="Password" name="password" type="password" />
-                <select name="roles">
+            <form onSubmit={(event) => userSubmit(event)}>
+                <input placeholder="Email" type="email" name="email" id="email"/>
+                <select name="roles" id="roles">
                   <option value='service'>Service</option>
                   <option value='admin'>Admin</option>
                 </select>
-                <button type="submit">Add user</button>
+                <button type="submit" id="submitUser" >Add user</button>
             </form>
-            <Table head={headTable} arrayData={users}/>
+            <Table head={headTable} arrayData={users} putData={putData}/>
             <Pagination />
           </div>
         );

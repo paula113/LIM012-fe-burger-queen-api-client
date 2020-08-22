@@ -4,18 +4,15 @@ import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const Column = (prop) => {
   // const token = localStorage.getItem('token');
-  const { data } = prop;
-  console.log(data);
+  const { data , putData} = prop;
   const arrayData = Object.values(data);
-  // const toEdit = {
-  //   roles: { admin: true },
-  // };
+  
   return (
     <tr>
-      {arrayData.map((data) => <td >{data}</td>)}
+      {arrayData.map((data) => <td key={data}>{data}</td>)}
       <td>
         <FontAwesomeIcon icon={faTrash} />
-        <FontAwesomeIcon icon={faEdit} />
+        <FontAwesomeIcon icon={faEdit} onClick={() => putData(data) }/>
       </td>
     </tr>
   );

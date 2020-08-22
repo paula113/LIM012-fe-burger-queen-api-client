@@ -33,7 +33,7 @@ const postbyKeyword = (token, body) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${body}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(body),
   };
@@ -43,16 +43,18 @@ const postbyKeyword = (token, body) => {
     });
 };
 
-const updateUserByKeyword = (token, keyword, body) => {
+const updateUserByKeyword = async (token,keyword , body) => {
   const requestOptions = {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(body),
   };
-  return fetch(`${url}:8000/users/${keyword}`, requestOptions)
-  .then((resp) => {
-    resp.json();
-  });
+  const data = await fetch(`${url}/users/${keyword}`, requestOptions)
+  const dataJson = await data.json();
+  return dataJson;
 };
 
 export {
