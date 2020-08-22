@@ -1,6 +1,6 @@
 import { url } from './url';
 
-const getUsers = (token) => {
+const getUsers = async (token) => {
   const requestOptions = {
     method: 'GET',
     headers: {
@@ -8,10 +8,13 @@ const getUsers = (token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  return fetch(`${url}/users`, requestOptions)
-  .then((resp) => {
-    return resp;
+  const data = await fetch(`${url}/users`, requestOptions);
+  const dataJson = await data.json();
+  const users = dataJson.map((data) => {
+    data.roles = (data.roles.admin) ? 'admin' : 'service';
+    return data;
   });
+  return users;
 };
 
 const getUserByKeyword = (token, keyword) => {
@@ -34,7 +37,7 @@ const postbyKeyword = (token, body) => {
     },
     body: JSON.stringify(body),
   };
-  return fetch('${url}/users', requestOptions)
+  return fetch(`${url}/users`, requestOptions)
     .then((resp) => {
       resp.json();
     });
@@ -55,5 +58,6 @@ const updateUserByKeyword = (token, keyword, body) => {
 export {
   getUsers,
   getUserByKeyword,
+  postbyKeyword,
   updateUserByKeyword,
 };

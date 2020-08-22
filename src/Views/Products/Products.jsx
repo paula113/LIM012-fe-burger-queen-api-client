@@ -39,7 +39,7 @@ export default class Products extends Component {
     },
     ];
     return (
-      <div id="users">
+      <div className="products">
 
         <form>
           {info.map((info, index) => {

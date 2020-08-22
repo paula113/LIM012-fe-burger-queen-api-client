@@ -48,3 +48,25 @@ $title: American Typewriter;
 
     }
 }
+
+@mixin form(){
+    @include direccionFlex(column);
+    background-color: #e0b61f;
+    border-radius: 10px;
+    padding: .5rem;
+    margin: 5rem 5rem;
+    width: 40%;
+    input {
+        @include buttons(white, 1rem, gray);
+        margin: .5rem;
+    }
+    select {
+        @include buttons(white, 2.5rem, gray);
+        margin: .5rem;
+        color: gray;
+    }
+    button {
+        @include buttons($loginBtn, 2rem, $baseColor-4);
+        color: ivory;
+    }
+}

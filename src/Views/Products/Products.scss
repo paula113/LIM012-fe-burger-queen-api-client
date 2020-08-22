@@ -1,0 +1,25 @@
+@import '../../App.scss';
+.products{
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    @include direccionFlex(column);
+    width: 100vw;
+    height: 100vh;
+    background: $baseColor-4 ;
+    .containertop{
+        @include direccionFlex(row);
+        justify-content: space-around;
+        margin: 0 auto;
+        width: 100%;
+        img{
+            width: 250px;
+            height: 250px;
+            margin: 5rem 0rem;
+        }
+    }
+    form {
+        @include form();
+    }
+}

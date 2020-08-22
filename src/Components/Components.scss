@@ -5,6 +5,7 @@
 @mixin NavBar {
   nav {
     @include direccionFlex(row);
+    height: 4vh;
     img{
       width: 10vw;
     }

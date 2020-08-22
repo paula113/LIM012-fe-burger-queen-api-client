@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import { getUsers, updateUserByKeyword } from '../../controller/user';
-// import postbyKeyword from '../../controller/User_controller';
+import { getUsers } from '../../controller/user';
 
 const Users = () => {
-
-  const token = localStorage.getItem('token');
   // state
-  const [users, setUsers] = useState([]);
-  const info = ['id', 'email', 'rol'];
+  //const [users, setUsers] = useState([]);
+
+  const headTable= ['id', 'Email', 'Rol'];
+  console.log('1');
+  // getUser
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+      async function fetchData(){
+        const userData = await getUsers(localStorage.getItem('token'));
+        setUsers(userData)
+      }
+      fetchData();
+    },[]);
   // const initUser = { email: '', password: '', roles: { admin: '' } };
   // const [newuser, setNewUser] = useState(initUser);
   
@@ -40,22 +48,22 @@ const Users = () => {
   //       setUsers(usersUpdated);
   //     });
   // };
-  return (
-    <div className="users">
-      <h1>Users</h1>
-      <form className="form">
-          <input placeholder="Email" type="email" name="email" />
-          <input placeholder="Password" name="password" type="password" />
-          <select name="roles">
-            <option value='service'>Service</option>
-            <option value='admin'>Admin</option>
-          </select>
-          <button type="submit">Add user</button>
-        </form>
-      <Table info={info}/>
-      <Pagination />
-    </div>
-  );
+        return (
+          <div className="users">
+            <h1>Users</h1>
+            <form >
+                <input placeholder="Email" type="email" name="email" />
+                <input placeholder="Password" name="password" type="password" />
+                <select name="roles">
+                  <option value='service'>Service</option>
+                  <option value='admin'>Admin</option>
+                </select>
+                <button type="submit">Add user</button>
+            </form>
+            <Table head={headTable} arrayData={users}/>
+            <Pagination />
+          </div>
+        );
 };
 
 export default Users;
