@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import { getUsers, postbyKeyword, updateUserByKeyword } from '../../controller/user';
+import { getUsers, postbyKeyword, updateUserByKeyword, deletebyKeyword } from '../../controller/user';
 
 
 const Users = () => {
-  // state
+  //-------------------------STATE------------------------------//
   const [users, setUsers] = useState([]);
   const [dataToPut, setDataToPut] = useState({});
   const headTable= ['id', 'Email', 'Rol'];
-
 //-------------------------GET USER------------------------------//
     useEffect(() => {
       async function fetchUser(){
@@ -60,10 +59,11 @@ const Users = () => {
     };
  //-------------------------DELETE USER------------------------------//
   const deleteBy = (data) => {
-  console.log(data._id);
+  async function fetchData() { 
+    const deleted = await deletebyKeyword(data._id);
   }
-
-
+  fetchData();
+  }
         return (
           <div className="users">
               <div className="containertop">

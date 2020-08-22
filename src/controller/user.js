@@ -34,13 +34,27 @@ const postbyKeyword = async (body) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`,
+      body: JSON.stringify(body),
     },
-    body: JSON.stringify(body),
   };
  const data = await fetch(`${url}/users`, requestOptions);
  const dataJson = await data.json();
  return dataJson
 };
+
+const deletebyKeyword = async (keyword) => {
+  const requestOptions = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  };
+ const data = await fetch(`${url}/users/${keyword}`, requestOptions);
+ const dataJson = await data.json();
+ return dataJson
+};
+
 
 const updateUserByKeyword = async (token,keyword , body) => {
   const requestOptions = {
@@ -60,5 +74,6 @@ export {
   getUsers,
   getUserByKeyword,
   postbyKeyword,
+  deletebyKeyword,
   updateUserByKeyword,
 };
