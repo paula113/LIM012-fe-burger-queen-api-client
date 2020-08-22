@@ -11,7 +11,7 @@ const Users = () => {
   const [dataToPut, setDataToPut] = useState({});
   const headTable= ['id', 'Email', 'Rol'];
 
-  // getUser
+//-------------------------GET USER------------------------------//
     useEffect(() => {
       async function fetchUser(){
         const userData = await getUsers(localStorage.getItem('token'));
@@ -19,6 +19,7 @@ const Users = () => {
       }
       fetchUser();
     },[users]);
+//-------------------------UPDATE USER------------------------------//
 
     function putData(data){
       document.getElementById('email').value= data.email;
@@ -34,7 +35,7 @@ const Users = () => {
         const body = {
           email : newEmail,
           roles : { admin : (newRol === 'admin') }
-        } 
+        }
       const newUser = await updateUserByKeyword(localStorage.getItem('token'),dataToPut.email, body);
       const newUsers = await users.map((user) => (user.email === dataToPut.email)? newUser : user);
       console.log(newUsers);
@@ -50,15 +51,19 @@ const Users = () => {
     };
 
     const handleSubmit = (e) => {
-      (newuser.roles === true ? newuser.roles = { admin: true } : newuser.roles = { admin: false } )
+      (newuser.roles === 'admin' ? newuser.roles = { admin: true } : newuser.roles = { admin: false } )
       async function fetchData() { 
         const newpost = await postbyKeyword(newuser);
-
       }
       fetchData();
       e.preventDefault();
     };
-    
+ //-------------------------DELETE USER------------------------------//
+  const deleteBy = (data) => {
+  console.log(data._id);
+  }
+
+
         return (
           <div className="users">
               <div className="containertop">
@@ -66,16 +71,16 @@ const Users = () => {
 
             <form className="form" onSubmit={(e) => handleSubmit(e)}>
             {!!(newuser.email && newuser.password) ? <strong>Add Employee {newuser.email}</strong> : 'Please type emloyee email, password and role'}
-              <input placeholder="Email" type="email" name="email" value={newuser.email} onChange={handleChange} />
+              <input placeholder="Email" id="email" type="email" name="email" value={newuser.email} onChange={handleChange} />
               <input placeholder="Password" name="password" type="password" value={newuser.password} onChange={handleChange} minLength={6} required />
               <select name="roles" value={newuser.roles} onChange={handleChange}>
-                <option value={false}>Service</option>
-                <option value={true}>Admin</option>
+                <option value='service'>Service</option>
+                <option value='admin'>Admin</option>
               </select>
-              <button type="submit">Add user</button>
+              <button type="submit" id="submitUser">Add user</button>
             </form>
             </div>
-            <Table head={headTable} arrayData={users} putData={putData}/>
+            <Table head={headTable} arrayData={users} putData={putData} deleteBy={deleteBy}/>
             <Pagination />
           </div>
         );
