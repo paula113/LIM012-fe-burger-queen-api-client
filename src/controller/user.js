@@ -1,5 +1,18 @@
 import { url } from './url';
 
+const sizeData = async () => {
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  };
+  const data = await fetch(`${url}/users`, requestOptions);
+  const dataJson = await data.json();
+  return dataJson.length;
+}
+
 const getUsers = async (page) => {
   const requestOptions = {
     method: 'GET',
@@ -16,10 +29,10 @@ const getUsers = async (page) => {
         data.roles = (data.roles.admin) ? 'admin' : 'service';
         return data;
       });
-      return users;
-    case 404:
-      throw new Error('No page found');
-    default:
+    return users;
+    // case 404:
+    //   throw new Error('No page found');
+     default:
       throw new Error(data.statusText);
   }
   
@@ -89,6 +102,7 @@ const updateUserByKeyword = async (keyword , body) => {
 };
 
 export {
+  sizeData,
   getUsers,
   getUserByKeyword,
   postbyKeyword,

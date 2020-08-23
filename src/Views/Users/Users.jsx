@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import { getUsers, postbyKeyword, updateUserByKeyword, deletebyKeyword } from '../../controller/user';
-
+import { sizeData, getUsers, postbyKeyword, updateUserByKeyword, deletebyKeyword } from '../../controller/user';
 
 const Users = () => {
   //-------------------------STATE------------------------------//
   const [users, setUsers] = useState([]);
   const [dataToPut, setDataToPut] = useState({});
   const headTable= ['id', 'Email', 'Rol'];
-  const [page, setPage] = useState(1)
+  const initPage = { current: 1 , total: 1};
+  const [page, setPage] = useState(initPage);
 //-------------------------GET USER------------------------------//
     useEffect(() => {
       // async function fetchUser(){
@@ -20,24 +20,28 @@ const Users = () => {
       //   fetchUser();
       (async ()=> {
         try{
-          const userData = await getUsers(page);
-          setUsers(userData)
+          const userData = await getUsers(page.current);
+          setUsers(userData);
+          const size = await sizeData();
+          setPage(page => ({ ...page, total: Math.ceil((size)/5) }));
 
         }catch(e){
-          setPage(0);
-          console.log(`Error: ${e}`)
+          console.log(`Error: ${e}`);
          }
       })()
     },[users]);
 // PAGINATION
-   const prev = () => {
-     const prevPage = (page===0)? 1 :parseInt(page) -1;
-     setPage(prevPage);
-   } 
-   const next = () => {
-    const nextPage = (page===0)? 1 :parseInt(page) +1;
-     setPage(nextPage);
-  } 
+  //  const prev = () => {
+  //    const prevPage = (page===0)? 1 :parseInt(page) -1;
+  //    setPage(prevPage);
+  //  } 
+  //  const next = () => {
+  //   const nextPage = (page===0)? 1 :parseInt(page) +1;
+  //    setPage(nextPage);
+  // } 
+  const currentPage = (thisPage) => {
+    setPage(page => ({...page, current: thisPage}));
+  }
 //-------------------------UPDATE USER------------------------------//
 
     function putData(data){
@@ -65,6 +69,7 @@ const Users = () => {
       } else {  
         //-------------------------POST NEW USER------------------------------//
         await postbyKeyword(body);
+        window.alert('añadido con exito');
       }
     };
  //-------------------------DELETE USER------------------------------//
@@ -88,8 +93,7 @@ const Users = () => {
             </form>
             </div>
             <Table head={headTable} arrayData={users} putData={putData} deleteBy={deleteBy} page={page}/>
-            <Pagination page= {page} next={next} prev={prev}/>
-            <p>{page}</p>
+            <Pagination page={page }currentPage= {currentPage}/>
           </div>
         );
 };
