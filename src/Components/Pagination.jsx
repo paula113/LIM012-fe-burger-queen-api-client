@@ -1,19 +1,13 @@
 import React from 'react';
 import './Components.scss';
 
-export default function Pagination() {
+export default function Pagination(props) {
+  const { prev, next } = props;
   return (
     <div className="paginationComponent">
       <ul className="pagination">
-        <li><a href="#">«</a></li>
-        <li><a href="?page=1">1</a></li>
-        <li><a className="active" href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">6</a></li>
-        <li><a href="#">7</a></li>
-        <li><a href="#">»</a></li>
+        <li><a onClick={prev}>«</a></li>
+        <li><a onClick={next}>»</a></li>
       </ul>
     </div>
   );

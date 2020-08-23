@@ -1,20 +1,28 @@
 import { url } from './url';
 
-const getUsers = async (token) => {
+const getUsers = async (page) => {
   const requestOptions = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   };
-  const data = await fetch(`${url}/users`, requestOptions);
-  const dataJson = await data.json();
-  const users = dataJson.map((data) => {
-    data.roles = (data.roles.admin) ? 'admin' : 'service';
-    return data;
-  });
-  return users;
+  const data = await fetch(`${url}/users?page=${page}&limit=5`, requestOptions);
+  switch (data.status) {
+    case 200:
+      const dataJson = await data.json();
+      const users = dataJson.map((data) => {
+        data.roles = (data.roles.admin) ? 'admin' : 'service';
+        return data;
+      });
+      return users;
+    case 404:
+      throw new Error('No page found');
+    default:
+      throw new Error(data.statusText);
+  }
+  
 };
 
 const getUserByKeyword = (token, keyword) => {

@@ -10,14 +10,34 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [dataToPut, setDataToPut] = useState({});
   const headTable= ['id', 'Email', 'Rol'];
+  const [page, setPage] = useState(1)
 //-------------------------GET USER------------------------------//
     useEffect(() => {
-      async function fetchUser(){
-        const userData = await getUsers(localStorage.getItem('token'));
-        setUsers(userData)
-      }
-      fetchUser();
+      // async function fetchUser(){
+      //   const userData = await getUsers(page);
+      //   setUsers(userData)
+      // }
+      //   fetchUser();
+      (async ()=> {
+        try{
+          const userData = await getUsers(page);
+          setUsers(userData)
+
+        }catch(e){
+          setPage(0);
+          console.log(`Error: ${e}`)
+         }
+      })()
     },[users]);
+// PAGINATION
+   const prev = () => {
+     const prevPage = (page===0)? 1 :parseInt(page) -1;
+     setPage(prevPage);
+   } 
+   const next = () => {
+    const nextPage = (page===0)? 1 :parseInt(page) +1;
+     setPage(nextPage);
+  } 
 //-------------------------UPDATE USER------------------------------//
 
     function putData(data){
@@ -67,8 +87,9 @@ const Users = () => {
               <button type="submit" id="submitUser">Add user</button>
             </form>
             </div>
-            <Table head={headTable} arrayData={users} putData={putData} deleteBy={deleteBy}/>
-            <Pagination />
+            <Table head={headTable} arrayData={users} putData={putData} deleteBy={deleteBy} page={page}/>
+            <Pagination page= {page} next={next} prev={prev}/>
+            <p>{page}</p>
           </div>
         );
 };
