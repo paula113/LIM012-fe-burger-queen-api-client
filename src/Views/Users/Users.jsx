@@ -67,7 +67,6 @@ const Users = () => {
             <form className="form" onSubmit={(e) => handleSubmit(e)}>
             {!!(newuser.email && newuser.password) ? <strong>Add Employee {newuser.email}</strong> : 'Please type emloyee email, password and role'}
               <input placeholder="Email" type="email" name="email" value={newuser.email} onChange={handleChange} />
-              <input placeholder="Password" name="password" type="password" value={newuser.password} onChange={handleChange} minLength={6} required />
               <select name="roles" value={newuser.roles} onChange={handleChange}>
                 <option value={false}>Service</option>
                 <option value={true}>Admin</option>
