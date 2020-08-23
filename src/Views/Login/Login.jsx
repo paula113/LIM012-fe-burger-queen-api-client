@@ -10,16 +10,30 @@ const Login = (prop) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const loginSubmit = (event) => {
+  const loginSubmit = async (event) => {
     event.preventDefault();
     console.log('1');
-    getToken(email, password).then((res) => {
-      const { token } = res;
-      localStorage.setItem('token', token);
-      history.push('/home');
-    }, (error) => {
-      document.getElementById('error').textContent = error;
-    });
+    // getToken(email, password).then((res) => {
+    //   const { token } = res;
+    //   localStorage.setItem('token', token);
+    //   history.push('/home');
+    // }, (error) => {
+    //   document.getElementById('error').textContent = error;
+    // });
+    (async ()=> {
+      console.log('2');
+      try{
+        console.log('3');
+        const { token } = await getToken(email, password);
+        console.log('3.5');
+        await localStorage.setItem('token', token);
+        await console.log('4');
+        history.push('/home');
+        console.log('5');
+      }catch(error){
+        document.getElementById('error').textContent = error;
+       }
+    })() 
   };
   return (
     <div className="login">
