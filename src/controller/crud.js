@@ -1,7 +1,6 @@
 import { url } from './url';
 
-
-const getProducts = async (page) => {
+const getAllData = async (table) => {
   const requestOptions = {
     method: 'GET',
     headers: {
@@ -9,7 +8,20 @@ const getProducts = async (page) => {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   };
-  const data = await fetch(`${url}/products?page=${page}&limit=5`, requestOptions);
+  const data = await fetch(`${url}/${table}`, requestOptions);
+  const dataJson = await data.json();
+  return dataJson;
+}
+
+const getData = async (page, table) => {
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  };
+  const data = await fetch(`${url}/${table}?page=${page}&limit=5`, requestOptions);
   switch (data.status) {
     case 200:
       const dataJson = await data.json();
@@ -22,18 +34,20 @@ const getProducts = async (page) => {
   
 };
 
-const getUserByKeyword = (token, keyword) => {
+const getByKeyword = async (keyword, table) => {
   const requestOptions = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   };
-  return fetch(`${url}/users/${keyword}`, requestOptions);
+  const data = await fetch(`${url}/${table}/${keyword}`, requestOptions);
+  const dataJson = await data.json();
+  return dataJson;
 };
 
-const postbyKeyword = async (body) => {
+const postbyKeyword = async (body, table) => {
   const requestOptions = {
     method: 'POST',
     headers: {
@@ -42,12 +56,12 @@ const postbyKeyword = async (body) => {
     },
     body: JSON.stringify(body),
   };
- const data = await fetch(`${url}/users`, requestOptions);
+ const data = await fetch(`${url}/${table}`, requestOptions);
  const dataJson = await data.json();
  return dataJson
 };
 
-const deletebyKeyword = async (keyword) => {
+const deletebyKeyword = async (keyword, table) => {
   const requestOptions = {
     method: 'DELETE',
     headers: {
@@ -55,13 +69,13 @@ const deletebyKeyword = async (keyword) => {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   };
- const data = await fetch(`${url}/users/${keyword}`, requestOptions);
+ const data = await fetch(`${url}/${table}/${keyword}`, requestOptions);
  const dataJson = await data.json();
  return dataJson
 };
 
 
-const updateUserByKeyword = async (keyword , body) => {
+const updateByKeyword = async (keyword , body, table) => {
   const requestOptions = {
     method: 'PUT',
     headers: {
@@ -70,7 +84,7 @@ const updateUserByKeyword = async (keyword , body) => {
     },
     body: JSON.stringify(body),
   };
-  const data = await fetch(`${url}/users/${keyword}`, requestOptions)
+  const data = await fetch(`${url}/${table}/${keyword}`, requestOptions)
   console.log(data);
   console.log(data.status);
   switch (data.status) {
@@ -85,11 +99,12 @@ const updateUserByKeyword = async (keyword , body) => {
   }
 };
 
+
 export {
-  sizeData,
-  getUsers,
-  getUserByKeyword,
+  getAllData,
+  getData,
+  getByKeyword,
   postbyKeyword,
   deletebyKeyword,
-  updateUserByKeyword,
+  updateByKeyword,
 };

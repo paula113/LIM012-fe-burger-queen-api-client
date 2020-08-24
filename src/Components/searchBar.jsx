@@ -13,7 +13,7 @@ const SearchBar = (props) => {
     useEffect(()=>{
 
         document.addEventListener('mousedown', clickOutside);
-console.log('user efects search box');
+    console.log('user efects search box');
         return () => {
             document.removeEventListener('mousedown', clickOutside);
         }
