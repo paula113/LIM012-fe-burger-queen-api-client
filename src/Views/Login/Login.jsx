@@ -11,9 +11,9 @@ const Login = (prop) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const loginSubmit = async (event) => {
+  const loginSubmit = (event) => {
     event.preventDefault();
-    console.log('1');
+    console.log(email);
     getToken(email, password).then((res) => {
       const { token } = res;
       localStorage.setItem('token', token);
