@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import { getUsers, postbyKeyword, updateUserByKeyword, deletebyKeyword } from '../../controller/user';
+import SearchBar from '../../Components/searchBar';
+import { getUsers, postbyKeyword, 
+  getUserByKeyword,
+  updateUserByKeyword, deletebyKeyword
+ } from '../../controller/user';
 
 
 const Users = () => {
@@ -17,6 +21,10 @@ const Users = () => {
         setUsers(userData)
       }
       fetchUser();
+      console.log('use effect');
+      // return () => {
+
+      // };
     },[users]);
 //-------------------------UPDATE USER------------------------------//
 
@@ -48,16 +56,24 @@ const Users = () => {
       }
     };
  //-------------------------DELETE USER------------------------------//
-  const deleteBy = async (data) => {
-    await deletebyKeyword(data._id);
+  const deleteBy = async (data) => await deletebyKeyword(data._id);
+
+const searchUserBy = async (e) =>{
+  e.preventDefault();
+  const input = document.querySelector('div.search-box input[placeholder="Search employee"]').value;
+  const validateInput = users.find((user) =>  ( input === user.email  || input === user._id ));
+  if (validateInput) { 
+  const resp = await getUserByKeyword(input);
+console.log(resp);
   }
+  };
+
         return (
           <div className="users">
               <div className="containertop">
               <img src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/e60c452ad793ea90d9e698f0fef3d6d190862ce8/src/assests/istockphoto-1049751988-612x612-removebg-preview%201.svg" alt="" />
 
             <form className="form" onSubmit={(e) => userSubmit(e)}>
-            {/* {!!(newuser.email && newuser.password) ? <strong>Add Employee {newuser.email}</strong> : 'Please type emloyee email, password and role'} */}
               <input placeholder="Email" id="email" type="email" name="email"  />
               <input placeholder="Password" id="password" name="password" type="password" minLength={6} />
               <select name="roles" id="roles">
@@ -67,6 +83,7 @@ const Users = () => {
               <button type="submit" id="submitUser">Add user</button>
             </form>
             </div>
+            <SearchBar arrayData={users} searchUserBy={searchUserBy}/>
             <Table head={headTable} arrayData={users} putData={putData} deleteBy={deleteBy}/>
             <Pagination />
           </div>

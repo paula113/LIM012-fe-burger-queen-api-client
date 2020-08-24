@@ -17,15 +17,17 @@ const getUsers = async (token) => {
   return users;
 };
 
-const getUserByKeyword = (token, keyword) => {
+const getUserByKeyword = async (keyword) => {
   const requestOptions = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   };
-  return fetch(`${url}/users/${keyword}`, requestOptions);
+  const data = await fetch(`${url}/users/${keyword}`, requestOptions);
+  const dataJson = await data.json();
+  return dataJson;
 };
 
 const postbyKeyword = async (body) => {
