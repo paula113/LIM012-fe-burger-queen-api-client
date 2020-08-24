@@ -34,6 +34,7 @@ const Users = () => {
           console.log(`Error: ${e}`);
          }
       })()
+      
     },[users]);
 // PAGINATION
   //  const prev = () => {
