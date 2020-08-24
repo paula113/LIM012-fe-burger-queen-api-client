@@ -1,6 +1,7 @@
 import { url } from './url';
 
-const getUsers = async (page) => {
+
+const getProducts = async (page) => {
   const requestOptions = {
     method: 'GET',
     headers: {
@@ -8,15 +9,11 @@ const getUsers = async (page) => {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   };
-  const data = await fetch(`${url}/users?page=${page}&limit=5`, requestOptions);
+  const data = await fetch(`${url}/products?page=${page}&limit=5`, requestOptions);
   switch (data.status) {
     case 200:
       const dataJson = await data.json();
-      const users = dataJson.map((data) => {
-        data.roles = (data.roles.admin) ? 'admin' : 'service';
-        return data;
-      });
-    return users;
+    return dataJson;
     // case 404:
     //   throw new Error('No page found');
      default:
@@ -89,6 +86,7 @@ const updateUserByKeyword = async (keyword , body) => {
 };
 
 export {
+  sizeData,
   getUsers,
   getUserByKeyword,
   postbyKeyword,

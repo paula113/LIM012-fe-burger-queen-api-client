@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import { sizeData, getUsers, postbyKeyword, updateUserByKeyword, deletebyKeyword } from '../../controller/user';
+import { sizeData } from '../../controller/url';
+import { getUsers, postbyKeyword, updateUserByKeyword, deletebyKeyword } from '../../controller/user';
 
 const Users = () => {
   //-------------------------STATE------------------------------//
@@ -22,7 +23,7 @@ const Users = () => {
         try{
           const userData = await getUsers(page.current);
           setUsers(userData);
-          const size = await sizeData();
+          const size = await sizeData('users');
           setPage(page => ({ ...page, total: Math.ceil((size)/5) }));
 
         }catch(e){
