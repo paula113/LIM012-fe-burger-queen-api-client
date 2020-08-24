@@ -1,39 +1,39 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+//import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './Login.scss';
 import { getToken } from '../../controller/auth';
 import Vectorburger from '../../assests/Vectorburger.svg'
 
 const Login = (prop) => {
-  const { history } = prop;
+  let history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const loginSubmit = async (event) => {
     event.preventDefault();
     console.log('1');
-    // getToken(email, password).then((res) => {
-    //   const { token } = res;
-    //   localStorage.setItem('token', token);
-    //   history.push('/home');
-    // }, (error) => {
-    //   document.getElementById('error').textContent = error;
-    // });
-    (async ()=> {
-      console.log('2');
-      try{
-        console.log('3');
-        const { token } = await getToken(email, password);
-        console.log('3.5');
-        await localStorage.setItem('token', token);
-        await console.log('4');
-        history.push('/home');
-        console.log('5');
-      }catch(error){
-        document.getElementById('error').textContent = error;
-       }
-    })() 
+    getToken(email, password).then((res) => {
+      const { token } = res;
+      localStorage.setItem('token', token);
+      console.log(token);
+      history.push('/home');
+    }, (error) => {
+      document.getElementById('error').textContent = error;
+    });
+      // try{
+      //   console.log('2');
+      //   const { token } = await getToken(email, password);
+      //   console.log('3');
+      //   console.log(token);
+      //   localStorage.setItem('token', token);
+      //   console.log('4');
+      //   history.push('/home');
+      //   console.log('5');
+      // }catch(error){
+      //   document.getElementById('error').textContent = error;
+      //  }
   };
   return (
     <div className="login">
@@ -56,4 +56,4 @@ const Login = (prop) => {
   );
 };
 
-export default withRouter(Login);
+export default Login;

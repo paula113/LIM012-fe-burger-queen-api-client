@@ -61,8 +61,8 @@ const Products = () => {
       const newPrice = document.getElementById('price').value;
       const newType = document.getElementById('type').value;
       // console.log(document.getElementById('image').value);
-      const image = document.getElementById('image')
-      image.addEventListener('change', previewImg)
+      //const neWmage = document.getElementById('image').files[0];
+      //simage.addEventListener('change', previewImg)
       const body = {
         name : newName,
         price : newPrice,
