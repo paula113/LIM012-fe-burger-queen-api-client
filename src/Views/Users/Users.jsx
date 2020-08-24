@@ -2,20 +2,30 @@ import React, { useState, useEffect } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import { sizeData } from '../../controller/url';
 import SearchBar from '../../Components/searchBar';
-import { getUsers, postbyKeyword, 
-  getUserByKeyword,
-  updateUserByKeyword, deletebyKeyword
- } from '../../controller/user';
+import { 
+  getAllData,
+  getData,
+  getByKeyword,
+  postbyKeyword,
+  deletebyKeyword,
+  updateByKeyword,
+ } from '../../controller/crud';
 
 const Users = () => {
+
+  const headTable= ['id', 'Email', 'Rol'];
+  const initPage = { current: 1 , total: 1};
   //-------------------------STATE------------------------------//
   const [users, setUsers] = useState([]);
   const [dataToPut, setDataToPut] = useState({});
-  const headTable= ['id', 'Email', 'Rol'];
-  const initPage = { current: 1 , total: 1};
+  const [allData, setAllData] = useState([]);
   const [page, setPage] = useState(initPage);
+/**
+ * infinito render 
+ * asincronia del test
+ */
+
 //-------------------------GET USER------------------------------//
     useEffect(() => {
       // async function fetchUser(){
@@ -25,14 +35,22 @@ const Users = () => {
       //   fetchUser();
       (async ()=> {
         try{
-          const userData = await getUsers(page.current);
-          setUsers(userData);
-          const size = await sizeData('users');
-          setPage(page => ({ ...page, total: Math.ceil((size)/5) }));
-
+          console.log('use efect');
+          const dataJson = await getData(page.current,'users');
+          const userData = dataJson.map((data) => {
+            data.roles = (data.roles.admin) ? 'admin' : 'service';
+            return data;
+          });
+           setUsers(userData);
+          ////-------
+          
+          const allUsers = await getAllData('users');
+          setAllData(allUsers);
+          setPage(page => ({ ...page, total: Math.ceil((allUsers.length)/5) }));
+          ////-------
         }catch(e){
           console.log(`Error: ${e}`);
-         }
+        }
       })()
       
     },[users]);
@@ -70,24 +88,26 @@ const Users = () => {
       console.log(body);
       if(button.textContent === 'Save changes'){
         //-------------------------UPDATE USER------------------------------//
-        const resp = await updateUserByKeyword(dataToPut.email, body);
+        const resp = await updateByKeyword(dataToPut.email, body,'users');
         console.log(resp);
       } else {  
         //-------------------------POST NEW USER------------------------------//
-        await postbyKeyword(body);
+        await postbyKeyword(body,'users');
         window.alert('añadido con exito');
       }
     };
  //-------------------------DELETE USER------------------------------//
-  const deleteBy = async (data) => await deletebyKeyword(data._id);
+  const deleteBy = async (data) => await deletebyKeyword(data._id,'users');
 
 const searchUserBy = async (e) =>{
   e.preventDefault();
   const input = document.querySelector('div.search-box input[placeholder="Search employee"]').value;
-  const validateInput = users.find((user) =>  ( input === user.email  || input === user._id ));
+  const validateInput = allData.find((user) =>  ( input === user.email  || input === user._id ));
   if (validateInput) { 
-  const resp = await getUserByKeyword(input);
-console.log(resp);
+  const data = await getByKeyword(input, 'users');
+  data.roles = (data.roles.admin) ? 'admin' : 'service';
+  const array = [data];
+  setUsers(array);
   }
   };
 
@@ -106,7 +126,7 @@ console.log(resp);
               <button type="submit" id="submitUser">Add user</button>
             </form>
             </div>
-            <SearchBar arrayData={users} searchUserBy={searchUserBy}/>
+            <SearchBar arrayData={allData} searchUserBy={searchUserBy}/>
             <Table head={headTable} arrayData={users} putData={putData} deleteBy={deleteBy} page={page}/>
             <Pagination page={page }currentPage= {currentPage}/>
           </div>
