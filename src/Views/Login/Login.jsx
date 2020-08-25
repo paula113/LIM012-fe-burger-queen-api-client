@@ -6,34 +6,27 @@ import './Login.scss';
 import { getToken } from '../../controller/auth';
 import Vectorburger from '../../assests/Vectorburger.svg'
 
-const Login = (prop) => {
+const Login = () => {
   let history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const loginSubmit = async (event) => {
-    event.preventDefault();
-    console.log('1');
-    getToken(email, password).then((res) => {
-      const { token } = res;
-      localStorage.setItem('token', token);
-      console.log(token);
-      history.push('/home');
-    }, (error) => {
-      document.getElementById('error').textContent = error;
-    });
-      // try{
-      //   console.log('2');
-      //   const { token } = await getToken(email, password);
-      //   console.log('3');
-      //   console.log(token);
-      //   localStorage.setItem('token', token);
-      //   console.log('4');
-      //   history.push('/home');
-      //   console.log('5');
-      // }catch(error){
-      //   document.getElementById('error').textContent = error;
-      //  }
+     event.preventDefault();
+     console.log('1');
+      try{
+        console.log('2');
+        const { token } = await getToken(email, password);
+        console.log('3');
+        console.log(token);
+        window.localStorage.setItem('token', token);
+        console.log(localStorage.getItem('token'));
+        console.log('4');
+        history.push('/home');
+        console.log('5');
+      }catch(error){
+        document.getElementById('error').textContent = error;
+       }
   };
   return (
     <div className="login">
