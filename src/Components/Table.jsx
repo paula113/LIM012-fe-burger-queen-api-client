@@ -3,7 +3,7 @@ import './Components.scss';
 import Column from './Column';
 
 const Table = (props) => {
-  const { head, arrayData, putData, deleteBy, page } = props;
+  const { table , arrayData, putData, deleteBy} = props;
   //if(page.totalPages){
   //   return (
   //     <table className="tableComponent">
@@ -22,11 +22,11 @@ const Table = (props) => {
     <table className="tableComponent">
       <thead>
         <tr>
-          {head.map((headInfo, i) => <th key={i} >{headInfo}</th>)}
+          {(table.head).map((element, i) => <th key={i} >{element}</th>)}
         </tr>
       </thead>
       <tbody>
-        {arrayData.map((data) => <Column key={data._id} data={data} putData={putData} deleteBy={deleteBy}/>)}
+        {arrayData.map((data) => <Column type={table.type}key={data._id} data={data} putData={putData} deleteBy={deleteBy}/>)}
       </tbody>
     </table>
   );

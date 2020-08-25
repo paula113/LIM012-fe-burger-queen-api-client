@@ -14,7 +14,7 @@ import {
 
 const Users = () => {
 
-  const headTable= ['id', 'Email', 'Rol'];
+  const table= {head:['id', 'Email', 'Rol'], type: 'users'};
   const initPage = { current: 1 , total: 1};
   //-------------------------STATE------------------------------//
   const [users, setUsers] = useState([]);
@@ -88,8 +88,8 @@ const Users = () => {
       console.log(body);
       if(button.textContent === 'Save changes'){
         //-------------------------UPDATE USER------------------------------//
-        const resp = await updateByKeyword(dataToPut.email, body,'users');
-        console.log(resp);
+        await updateByKeyword(dataToPut.email, body,'users');
+        document.getElementById('submitProduct').textContent = 'Add User';
       } else {  
         //-------------------------POST NEW USER------------------------------//
         await postbyKeyword(body,'users');
@@ -126,8 +126,8 @@ const searchUserBy = async (e) =>{
               <button type="submit" id="submitUser">Add user</button>
             </form>
             </div>
-            <SearchBar arrayData={allData} searchUserBy={searchUserBy}/>
-            <Table head={headTable} arrayData={users} putData={putData} deleteBy={deleteBy} page={page}/>
+            <SearchBar arrayData={allData} searchUserBy={searchUserBy} table='users'/>
+            <Table table={table} arrayData={users} putData={putData} deleteBy={deleteBy}/>
             <Pagination page={page }currentPage= {currentPage}/>
           </div>
         );

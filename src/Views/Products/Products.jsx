@@ -14,14 +14,14 @@ import {
  } from '../../controller/crud';
 
 const Products = () => {
-
-  const headTable= ['_id', 'name', 'price', 'image', 'type', 'dateEntry'];
+  const table = {head:['image','_id', 'name', 'price','image text','type', 'dateEntry'], type: 'products'};
   const initPage = { current: 1 , total: 1};
   //-------------------------STATE------------------------------//
   const [products, setProducts] = useState([]);
   const [dataToPut, setDataToPut] = useState({});
   const [allData, setAllData] = useState([]);
   const [page, setPage] = useState(initPage);
+  const [showDate, setShowDate] = useState(false);
 //-------------------------GET USER------------------------------//
     useEffect(() => {
       (async ()=> {
@@ -39,7 +39,7 @@ const Products = () => {
           console.log(`Error: ${e}`);
         }
       })()
-    },[products]);
+    },[]);
 // PAGINATION
   const currentPage = (thisPage) => {
     setPage(page => ({...page, current: thisPage}));
@@ -51,15 +51,17 @@ const Products = () => {
       document.getElementById('price').value = data.price;
       document.getElementById('type').value = data.type;
       document.getElementById('submitProduct').textContent = 'Save changes';
+      setShowDate(true);
       setDataToPut(data);
     }
 
     async function productsSubmit(event) {
       event.preventDefault();
       const button = document.getElementById('submitProduct');
-      const newName = document.getElementById('name').value;
-      const newPrice = document.getElementById('price').value;
-      const newType = document.getElementById('type').value;
+      let newName = document.getElementById('name').value;
+      let newPrice = document.getElementById('price').value;
+      let newType = document.getElementById('type').value;
+      let image = document.getElementById('image').value
       // console.log(document.getElementById('image').value);
       //const neWmage = document.getElementById('image').files[0];
       //simage.addEventListener('change', previewImg)
@@ -67,12 +69,17 @@ const Products = () => {
         name : newName,
         price : newPrice,
         type : newType,
+        image: image,
       }
       console.log(body);
       if(button.textContent === 'Save changes'){
         //-------------------------UPDATE USER------------------------------//
-        const resp = await updateByKeyword(dataToPut._id, body,'products');
-        console.log(resp);
+        await updateByKeyword(dataToPut._id, body,'products');
+        document.getElementById('name').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('type').value= '';
+        document.getElementById('image').value= '';
+        document.getElementById('submitProduct').textContent = 'Add Product';
       } else {  
         //-------------------------POST NEW USER------------------------------//
         await postbyKeyword(body,'products');
@@ -102,18 +109,27 @@ const searchUserBy = async (e) =>{
               <input placeholder="Name" id="name" name="name"  />
               <input placeholder="Price" id="price" name="price" />
               <input placeholder="Type" id="type" name="type"  />
-              <div class="choose_file">
+              <input placeholder="Insert url's image" id="image" name="image"/>
+              <select name="type" id="type">
+                <option value='desayuno'>Desayunos</option>
+                <option value='hamburguesa'>Hamburguesas</option>
+                <option value='acompañamiento'>Acompañamientos</option>
+                <option value='para tomar'>Para tomar</option>
+              </select>
+              {/* <div class="choose_file">
                   <span>Choose image</span>
                   <input id="image" name="Select File" type="file" />
-              </div>
-              <label for="sdate">Selec date entry:</label>
+              </div> */}
+              {showDate ? (<div>
+                <label for="sdate">Selec date entry:</label>
               <input type="datetime-local" id="date" name="date"
                     min="2000-01-01" max="2021-12-"></input>
-               <button type="submit" id="submitProduct">Add user</button>
+              </div>) : null}
+               <button type="submit" id="submitProduct">Add user</button> 
             </form>
             </div>
             <SearchBar arrayData={allData} searchUserBy={searchUserBy}/>
-            <Table head={headTable} arrayData={products} putData={putData} deleteBy={deleteBy} page={page}/>
+            <Table table={table} arrayData={products} putData={putData} deleteBy={deleteBy} page={page}/>
             <Pagination page={page }currentPage= {currentPage}/>
           </div>
         );
