@@ -126,7 +126,7 @@ const searchUserBy = async (e) =>{
               <button type="submit" id="submitUser">Add user</button>
             </form>
             </div>
-            <SearchBar arrayData={allData} searchUserBy={searchUserBy}/>
+            <SearchBar arrayData={allData} searchUserBy={searchUserBy} table='users'/>
             <Table head={headTable} arrayData={users} putData={putData} deleteBy={deleteBy} page={page}/>
             <Pagination page={page }currentPage= {currentPage}/>
           </div>

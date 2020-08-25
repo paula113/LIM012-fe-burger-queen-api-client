@@ -4,6 +4,7 @@ import './Products.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
 import SearchBar from '../../Components/searchBar';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import { 
   getAllData,
   getData,
@@ -53,19 +54,25 @@ const Products = () => {
       document.getElementById('submitProduct').textContent = 'Save changes';
       setDataToPut(data);
     }
-
+  
     async function productsSubmit(event) {
       event.preventDefault();
       const button = document.getElementById('submitProduct');
       const newName = document.getElementById('name').value;
       const newPrice = document.getElementById('price').value;
       const newType = document.getElementById('type').value;
-      // console.log(document.getElementById('image').value);
-      //const neWmage = document.getElementById('image').files[0];
-      //simage.addEventListener('change', previewImg)
+      const image = document.querySelector('input[type=file]');
+      const imageName = '';
+
+      image.addEventListener('change', (e) => {
+        imageName = e.target. files[0]. name;
+        console.log(imageName);
+      })
+  
       const body = {
         name : newName,
         price : newPrice,
+        image: imageName,
         type : newType,
       }
       console.log(body);
@@ -82,6 +89,7 @@ const Products = () => {
  //-------------------------DELETE USER------------------------------//
   const deleteBy = async (data) => await deletebyKeyword(data._id,'products');
 
+ 
 const searchUserBy = async (e) =>{
   e.preventDefault();
   const input = document.querySelector('div.search-box input[placeholder="Search employee"]').value;
@@ -102,9 +110,11 @@ const searchUserBy = async (e) =>{
               <input placeholder="Name" id="name" name="name"  />
               <input placeholder="Price" id="price" name="price" />
               <input placeholder="Type" id="type" name="type"  />
+              <span>Choose image</span>
               <div class="choose_file">
-                  <span>Choose image</span>
-                  <input id="image" name="Select File" type="file" />
+                <PhotoCameraIcon />
+                  <input id="image" name="Select File" type="file" 
+                  />
               </div>
               <label for="sdate">Selec date entry:</label>
               <input type="datetime-local" id="date" name="date"
@@ -112,7 +122,7 @@ const searchUserBy = async (e) =>{
                <button type="submit" id="submitProduct">Add user</button>
             </form>
             </div>
-            <SearchBar arrayData={allData} searchUserBy={searchUserBy}/>
+            <SearchBar arrayData={allData} searchUserBy={searchUserBy} table='products'/>
             <Table head={headTable} arrayData={products} putData={putData} deleteBy={deleteBy} page={page}/>
             <Pagination page={page }currentPage= {currentPage}/>
           </div>

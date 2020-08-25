@@ -1,3 +1,42 @@
+@import '../App.scss';
+.wrapper{
+
+    position: absolute;
+    top: 23%;
+    bottom: 69%;
+    left: 8%;
 .search-box{
-    background-color: hotpink;
+    @include direccionFlex(row);
+    background-color: white;
+    width: 100%;
+    margin: 5rem auto;
+    input {
+        @include buttons(white, 1rem, gray);
+        width: 100%;
+    }
+    button {
+        @include buttons($loginBtn, 2rem, $loginBtn);
+        color: ivory;
+        padding: .2rem;
+    }
+    }
+    .suggestions{
+        position: absolute;
+        top: 7.5rem;
+        left: 0rem;
+        z-index: 3rem;
+        list-style-type: none;
+        
+        background-color: white;
+        li{
+            background-color: white;
+          border: .1px solid $baseColor;  
+        }
+        li:hover{
+            background-color: $loginBtn;
+            color: white;
+          }
+
+   
+    }
 }

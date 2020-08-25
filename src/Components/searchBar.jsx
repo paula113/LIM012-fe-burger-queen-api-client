@@ -8,7 +8,7 @@ const SearchBar = (props) => {
     const [display, setDisplay] = useState(false);
     const [search, setSearch] = useState('');
     const wrapperRef = useRef(null); // devuelve un objeto ref mutable cuya propiedad (.current) se inicializa con el argumento pasado
-    const { arrayData, searchUserBy } = props;
+    const { arrayData, searchUserBy, table } = props;
 
     useEffect(()=>{
 
@@ -19,6 +19,11 @@ const SearchBar = (props) => {
         }
     },[]);
 
+    const showlist = (e) => {
+        setDisplay(!display)
+        setSearch(e.target.value)
+    };
+
     const clickOutside = (e) =>{
         const {current: wrap} = wrapperRef;
         if (wrap && !wrap.contains(e.target)) {
@@ -26,20 +31,41 @@ const SearchBar = (props) => {
         }
 
     };
-
+    const list = []
+    const iDs = arrayData.forEach(element => {
+        switch (table) {
+            case 'users':
+                list.push(element.email);
+                list.push(element._id); 
+                return list;
+            case 'products':
+                list.push(element._id);
+                list.push(element.name); 
+                return list;
+            case 'orders':
+                list.push(element._id);
+                list.push(element.name); 
+                return list;
+            default:
+                list.push(element._id);
+                return list;
+        }
+    });
     const userSelected = (value) => {
+
         setSearch(value);
         setDisplay(false);
     }
 
     return (
-        <div ref={wrapperRef}>
+        <div className='wrapper' ref={wrapperRef}>
             <div className='search-box'>
             <input 
                 placeholder={'Search employee'} 
-                onClick={(e) => setDisplay(!display)}
+                // onClick={(e) => setDisplay(!display)}
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                // onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => showlist(e)}
             />
             <button 
                 type="submit" 
@@ -49,11 +75,11 @@ const SearchBar = (props) => {
             </button>
 
             </div>
-            { display &&  (<ul>
+            { display &&  (<ul className='suggestions'>
                 {
-                    arrayData
-                    .filter(({email}) => email.indexOf(search) > -1)
-                    .map((user, i) => <li key={i} onClick={() => userSelected(user.email)}> {user._id}  {user.email}</li>)
+                    list
+                    .filter((item) => item.indexOf(search) > -1)
+                    .map((user, i) => <li key={i} onClick={() => userSelected(user)} tabIndex='0'> {user}</li>)
                 }
             </ul>)}
             
