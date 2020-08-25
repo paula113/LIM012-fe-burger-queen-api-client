@@ -7,7 +7,7 @@ const Column = (prop) => {
   const { data , putData, deleteBy, type} = prop;
   // delete products.image;
   const headers =  Object.values(data)
-  console.log(headers);
+  // console.log(headers);
 
   return (
     <tr>

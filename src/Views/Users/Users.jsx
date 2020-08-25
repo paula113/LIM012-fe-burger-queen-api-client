@@ -21,6 +21,7 @@ const Users = () => {
   const [dataToPut, setDataToPut] = useState({});
   const [allData, setAllData] = useState([]);
   const [page, setPage] = useState(initPage);
+  const [display, setDisplay] = useState({});
 /**
  * infinito render 
  * asincronia del test
@@ -89,11 +90,21 @@ const Users = () => {
       if(button.textContent === 'Save changes'){
         //-------------------------UPDATE USER------------------------------//
         await updateByKeyword(dataToPut.email, body,'users');
+        document.getElementById('email').value= '';
+        document.getElementById('password').value= '';
         document.getElementById('submitProduct').textContent = 'Add User';
       } else {  
         //-------------------------POST NEW USER------------------------------//
-        await postbyKeyword(body,'users');
-        window.alert('añadido con exito');
+        const userAdded =  await postbyKeyword(body,'users');
+        setDisplay(userAdded)
+        document.getElementById('email').value= '';
+        document.getElementById('password').value= '';
+        const msg = document.getElementsByTagName('strong');
+        setTimeout(() => { 
+          msg.textContent = ''
+          setDisplay({})
+       }, 3000);
+
       }
     };
  //-------------------------DELETE USER------------------------------//
@@ -115,8 +126,8 @@ const searchUserBy = async (e) =>{
           <div className="users">
               <div className="containertop">
               <img src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/e60c452ad793ea90d9e698f0fef3d6d190862ce8/src/assests/istockphoto-1049751988-612x612-removebg-preview%201.svg" alt="" />
-
             <form className="form" onSubmit={(e) => userSubmit(e)}>
+            {(display.email) ? <strong>{display.email} successfully added</strong> : null}
               <input placeholder="Email" id="email" type="email" name="email"  />
               <input placeholder="Password" id="password" name="password" type="password" minLength={6} />
               <select name="roles" id="roles">
