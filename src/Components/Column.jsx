@@ -17,7 +17,7 @@ const Column = (prop) => {
         <React.Fragment>
           <td><img src={data.image}/></td>
         {headers.map((header) =>
-        <td key={data}>{header}</td>)}
+        <td key={header}>{header}</td>)}
         </React.Fragment>)}
       <td>
         <FontAwesomeIcon icon={faTrash} onClick={() => { deleteBy(data) }}/>
