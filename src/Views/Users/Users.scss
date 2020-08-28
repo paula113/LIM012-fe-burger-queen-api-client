@@ -23,4 +23,8 @@
     form {
         @include form();
     }
+    strong{
+        // color: $baseColor-2;
+        margin: 0 auto;
+    }
 }

@@ -13,20 +13,13 @@ const Login = () => {
 
   const loginSubmit = async (event) => {
      event.preventDefault();
-     console.log('1');
       try{
-        console.log('2');
         const { token } = await getToken(email, password);
-        console.log('3');
-        console.log(token);
-        window.localStorage.setItem('token', token);
-        console.log(localStorage.getItem('token'));
-        console.log('4');
+        localStorage.setItem('token', token);
         history.push('/home');
-        console.log('5');
-      }catch(error){
+      } catch(error){
         document.getElementById('error').textContent = error;
-       }
+      }
   };
   return (
     <div className="login">

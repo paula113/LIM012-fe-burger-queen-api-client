@@ -26,8 +26,8 @@ const getData = async (page, table) => {
     case 200:
       const dataJson = await data.json();
     return dataJson;
-    // case 404:
-    //   throw new Error('No page found');
+    case 404:
+     throw new Error('No page found');
      default:
       throw new Error(data.statusText);
   }
@@ -43,8 +43,18 @@ const getByKeyword = async (keyword, table) => {
     },
   };
   const data = await fetch(`${url}/${table}/${keyword}`, requestOptions);
-  const dataJson = await data.json();
-  return dataJson;
+  // const dataJson = await data.json();
+  // return dataJson;
+  switch (data.status) {
+    case 200:
+      const dataJson = await data.json();
+      return dataJson;
+    case 403:
+      console.log('error ')
+      break;
+    default:
+      return new Error(data.statusText);
+  }
 };
 
 const postbyKeyword = async (body, table) => {
@@ -57,8 +67,18 @@ const postbyKeyword = async (body, table) => {
     body: JSON.stringify(body),
   };
  const data = await fetch(`${url}/${table}`, requestOptions);
- const dataJson = await data.json();
- return dataJson
+//  const dataJson = await data.json();
+//  return dataJson
+switch (data.status) {
+  case 200:
+    const dataJson = await data.json();
+    return dataJson;
+  case 403:
+    console.log('error ')
+    break;
+  default:
+    return new Error(data.statusText);
+}
 };
 
 const deletebyKeyword = async (keyword, table) => {
@@ -70,8 +90,18 @@ const deletebyKeyword = async (keyword, table) => {
     },
   };
  const data = await fetch(`${url}/${table}/${keyword}`, requestOptions);
- const dataJson = await data.json();
- return dataJson
+//  const dataJson = await data.json();
+//  return dataJson
+switch (data.status) {
+  case 200:
+    const dataJson = await data.json();
+    return dataJson;
+  case 403:
+    console.log('error ')
+    break;
+  default:
+    return new Error(data.statusText);
+}
 };
 
 
@@ -84,9 +114,7 @@ const updateByKeyword = async (keyword , body, table) => {
     },
     body: JSON.stringify(body),
   };
-  const data = await fetch(`${url}/${table}/${keyword}`, requestOptions)
-  console.log(data);
-  console.log(data.status);
+  const data = await fetch(`${url}/${table}/${keyword}`, requestOptions);
   switch (data.status) {
     case 200:
       const dataJson = await data.json();

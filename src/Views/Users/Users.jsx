@@ -21,11 +21,8 @@ const Users = () => {
   const [dataToPut, setDataToPut] = useState({});
   const [allData, setAllData] = useState([]);
   const [page, setPage] = useState(initPage);
-/**
- * infinito render 
- * asincronia del test
- */
-
+  const [display, setDisplay] = useState({});
+  const [query, setQuery] = useState(false);
 //-------------------------GET USER------------------------------//
     useEffect(() => {
       // async function fetchUser(){
@@ -33,34 +30,38 @@ const Users = () => {
       //   setUsers(userData)
       // }
       //   fetchUser();
+      console.log('use effect');
       (async ()=> {
         try{
-          console.log('use efect');
-          const dataJson = await getData(page.current,'users');
-          const userData = dataJson.map((data) => {
-            data.roles = (data.roles.admin) ? 'admin' : 'service';
-            return data;
-          });
-           const sameData = userData.length === users.length && userData.every((value, index) => JSON.stringify(value) === JSON.stringify(users[index]));
-          // console.log(!sameData);
-          if(!sameData){
-          setUsers(userData);
-           }
-          //-------
-          
+            console.log('ok',page.current);
+            console.log('use efect');
+            const dataJson = await getData(page.current,'users');
+            const userData = dataJson.map((data) => {
+              data.roles = (data.roles.admin) ? 'admin' : 'service';
+              return data;
+            });
+            setUsers(userData);
           const allUsers = await getAllData('users');
           setAllData(allUsers);
           setPage(page => ({ ...page, total: Math.ceil((allUsers.length)/5) }));
           ////-------
         }catch(e){
-          console.log(`Error: ${e}`);
+          if(e.message==='No page found'){
+            const prevPage = page.current-1;
+            const dataJson = await getData(prevPage,'users');
+            const userData = dataJson.map((data) => {
+              data.roles = (data.roles.admin) ? 'admin' : 'service';
+              return data;
+            });
+            setUsers(userData);
+            setPage({ current: prevPage , total: page.total-1});
+          }
         } finally{
-          console.log('holi');
-          return () => setUsers([]);
+          return () => setQuery(query);
         }
       })()
       
-     },[users]);
+    },[query]);
 // PAGINATION
   //  const prev = () => {
   //    const prevPage = (page===0)? 1 :parseInt(page) -1;
@@ -71,7 +72,9 @@ const Users = () => {
   //    setPage(nextPage);
   // } 
   const currentPage = (thisPage) => {
+    setQuery(!query)
     setPage(page => ({...page, current: thisPage}));
+ 
   }
 //-------------------------UPDATE USER------------------------------//
 
@@ -79,6 +82,7 @@ const Users = () => {
       document.getElementById('email').value = data.email;
       document.getElementById('submitUser').textContent = 'Save changes';
       setDataToPut(data);
+      // setQuery(true)
     }
 
     async function userSubmit(event) {
@@ -92,18 +96,35 @@ const Users = () => {
         password : newPassword,
         roles : { admin : (newRol === 'admin') }
       }
+      // console.log(body);
+      console.log(button.textContent === 'Save changes');
       if(button.textContent === 'Save changes'){
         //-------------------------UPDATE USER------------------------------//
-        await updateByKeyword(dataToPut.email, body,'users');
+        await updateByKeyword(dataToPut.email, body, 'users');
+        setQuery(!query)
+        document.getElementById('email').value= '';
+        document.getElementById('password').value= '';
         document.getElementById('submitUser').textContent = 'Add User';
       } else {  
         //-------------------------POST NEW USER------------------------------//
-        await postbyKeyword(body,'users');
-        window.alert('añadido con exito');
+        const userAdded =  await postbyKeyword(body,'users');
+        setDisplay(userAdded);
+        setQuery(!query)
+        document.getElementById('email').value= '';
+        document.getElementById('password').value= '';
+        const msg = document.getElementsByTagName('strong');
+        setTimeout(() => { 
+          msg.textContent = ''
+          setDisplay({})
+       }, 4000);
+
       }
     };
  //-------------------------DELETE USER------------------------------//
-  const deleteBy = async (data) => await deletebyKeyword(data._id,'users');
+  const deleteBy = async (data) => {
+    await deletebyKeyword(data._id,'users');
+    setQuery(!query);
+  };
 
 const searchUserBy = async (e) =>{
   e.preventDefault();
@@ -114,15 +135,17 @@ const searchUserBy = async (e) =>{
   data.roles = (data.roles.admin) ? 'admin' : 'service';
   const array = [data];
   setUsers(array);
+  // setQuery(true)
+  }else{
+    setQuery(!query);
   }
   };
-  console.log('return');
         return (
           <div className="users">
               <div className="containertop">
               <img src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/e60c452ad793ea90d9e698f0fef3d6d190862ce8/src/assests/istockphoto-1049751988-612x612-removebg-preview%201.svg" alt="" />
-
             <form className="form" onSubmit={(e) => userSubmit(e)}>
+            {(display.email) ? <strong>{display.email} successfully added</strong> : null}
               <input placeholder="Email" id="email" type="email" name="email"  />
               <input placeholder="Password" id="password" name="password" type="password" minLength={6} />
               <select name="roles" id="roles">

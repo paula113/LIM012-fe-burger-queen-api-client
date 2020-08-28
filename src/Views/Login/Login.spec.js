@@ -2,78 +2,104 @@
 // import { render, screen, renderWithRouter } from '@testing-library/react';
 // import userEvent from '@testing-library/user-event';
 import React from "react";
-import { Router } from 'react-router-dom'
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
-import { createMemoryHistory } from 'history'
+import { MemoryRouter } from 'react-router-dom'
 import { render, fireEvent, screen, renderWithRouter } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import Login from './Login';
-import App from '../../App';
-import { url } from '../../controller/url';
 import { act } from "react-dom/test-utils";
 // mock :
-const server = setupServer(
-  rest.post(`${url}/auth`, (req, res, ctx) => {
-    console.log('mock');
-    return res(ctx.json({token: 'fake_user_token'}))
-    //return resp;
-  }),
-)
-beforeAll(() => {
-  console.log('hola');
-  return server.listen();
-})
+// const server =  setupServer(
+//   rest.post(`${url}/auth`, async (req, res, ctx) => {
+//     const resp = await res(ctx.json({token: 'fake_user_token'}));
+//     console.log(resp.body);
+//     return resp;
+//     //return resp;
+//   }),
+// )
+const mockStatus= (status) => {
+      global.fetch = jest.fn(() => Promise.resolve({
+        status,
+        json: () =>  Promise.resolve({
+            token: 'fake_user_token'
+        }),
+      }));
+}
+
+const mockHistoryPush = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: mockHistoryPush,
+  })
+}));
+
+// beforeAll(() => 
+//   //return server.listen();
+//   //fetch.mockClear()
+// );
 afterEach(() => {
-  server.resetHandlers();
+//   server.resetHandlers();
   localStorage.removeItem('token');
 })
-afterAll(() => {server.close()});
+// afterAll(() => {server.close()});
 //-------------------
 describe('Login', () => {
-  it('Debería mostrar el login iniciarse', async() => {
-  const { container, getByText } = render(<App/>);
+  it('Debería mostrar el login iniciarse', () => {
+  const { container, getByText } = render(<Login/>);
   expect(getByText('Burger Queen')).toBeInTheDocument();
   expect(container.firstChild).toHaveClass('login');
   });
   
-  it('Al autentificarse correctamente deberia direccionar a home', async() => {
-    console.log('-1')
-    const { container, getByText } = await render(<Login/>);
-     console.log('0')
-     fireEvent.change(screen.getByPlaceholderText('email'), {
-      target: {value: 'admin@localhost.host'},
-    })
-    fireEvent.change(screen.getByPlaceholderText('password'), {
-      target: {value: 'changeme'},
-    })
-    await act(async() => {
-      fireEvent.click(screen.getByText(/Login/i));
-      console.log('7')
+  it('Al tipear el email y contraseña debe cambiarse el estado', () =>{
+    const { getByPlaceholderText } = render(<Login />)
+    act(() => {
+      fireEvent.change(screen.getByPlaceholderText('email'), {
+        target: { value: 'admin@localhost.host' },
+      });
     });
-     console.log('8');
-     expect(window.localStorage.getItem('token')).toEqual('fake_user_token');
+    act(() => {
+      fireEvent.change(screen.getByPlaceholderText('password'), {
+        target: { value: 'changeme' },
+      });
+    });
+    expect( getByPlaceholderText('email').value).toEqual('admin@localhost.host');
+    expect( getByPlaceholderText('password').value).toEqual('changeme');
+  });
 
-  // .toHaveTextContent() comes from jest-dom's assertions
-  // otherwise you could use expect(alert.textContent).toMatch(/congrats/i)
-  // but jest-dom will give you better error messages which is why it's recommended
-    //expect(token).toEqual('fake_user_token');
-    // expect(getByText('User')).toBeInTheDocument();
-    // await screen.findByText(/Add user/i);
-    // expect(getByText(/Add user/i)).toBeInTheDocument();
-    // console.log(container.innerHTML);
-    // console.log(container.firstChild.classList);
-    // expect(container.firstChild.classList.contains('users')).toBe(true)
-    //expect(container.firstChild).toHaveClass('users');
+  it('Al autentificarse correctamente deberia guardar el token', async() => {
+      mockStatus(200);
+      render(<Login />);
+      await act(async () => {
+        await fireEvent.click(screen.getByText(/Login/i));
+      });
+      expect(localStorage.getItem('token')).toEqual('fake_user_token');
   });
-  it('Si no coloca email o password debería mostrar error; "Insert email and password"', () => {
+
+  it('Al autentificarse correctamente deberia cambiar a la ruta home', async() => {
+    render(<MemoryRouter>
+             <Login />
+           </MemoryRouter>)
+    await act(async () => {
+      await fireEvent.click(screen.getByText(/Login/i));
+    });
+    expect(mockHistoryPush).toHaveBeenCalledWith('/home');
   });
-  it('Si no hay token deberia mostar un mensaje de error: Invalid user or password', () => {
+  
+  
+  it('Si no coloca email o password debería mostrar error; "Insert email and password"', async() => {
+    mockStatus(400);
+    const { getByText } =  render(<Login />);
+    await act(async () => {
+      await fireEvent.click(screen.getByText(/Login/i));
+    });
+    expect(getByText('Error: Insert email and password')).toBeInTheDocument();
   });
-  /* it('debería mostrar siguiente pantalla al hacer click', () => {
-    const { getByText } = render(<App />);
-    const el = getByText(data[0].text);
-    userEvent.click(el);
-    expect(getByText(data[1].text)).toBeInTheDocument();
-  }); */
+  it('Si no hay token deberia mostar un mensaje de error: Invalid user or password', async () => {
+    mockStatus(404);
+    const { getByText } =  render(<Login />);
+    await act(async () => {
+      await fireEvent.click(screen.getByText(/Login/i));
+    });
+    expect(getByText('Error: Invalid user or password')).toBeInTheDocument();
+  });
 });
