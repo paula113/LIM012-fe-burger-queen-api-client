@@ -6,8 +6,7 @@ const Column = (prop) => {
   // const token = localStorage.getItem('token');
   const { data , putData, deleteBy, type} = prop;
   // delete products.image;
-  const headers =  Object.values(data)
-  console.log(headers);
+  const headers =  Object.values(data);
 
   return (
     <tr>

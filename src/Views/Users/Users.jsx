@@ -41,8 +41,12 @@ const Users = () => {
             data.roles = (data.roles.admin) ? 'admin' : 'service';
             return data;
           });
-           setUsers(userData);
-          ////-------
+           const sameData = userData.length === users.length && userData.every((value, index) => JSON.stringify(value) === JSON.stringify(users[index]));
+          // console.log(!sameData);
+          if(!sameData){
+          setUsers(userData);
+           }
+          //-------
           
           const allUsers = await getAllData('users');
           setAllData(allUsers);
@@ -50,10 +54,13 @@ const Users = () => {
           ////-------
         }catch(e){
           console.log(`Error: ${e}`);
+        } finally{
+          console.log('holi');
+          return () => setUsers([]);
         }
       })()
       
-    },[users]);
+     },[users]);
 // PAGINATION
   //  const prev = () => {
   //    const prevPage = (page===0)? 1 :parseInt(page) -1;
@@ -85,11 +92,10 @@ const Users = () => {
         password : newPassword,
         roles : { admin : (newRol === 'admin') }
       }
-      console.log(body);
       if(button.textContent === 'Save changes'){
         //-------------------------UPDATE USER------------------------------//
         await updateByKeyword(dataToPut.email, body,'users');
-        document.getElementById('submitProduct').textContent = 'Add User';
+        document.getElementById('submitUser').textContent = 'Add User';
       } else {  
         //-------------------------POST NEW USER------------------------------//
         await postbyKeyword(body,'users');
@@ -110,7 +116,7 @@ const searchUserBy = async (e) =>{
   setUsers(array);
   }
   };
-
+  console.log('return');
         return (
           <div className="users">
               <div className="containertop">
