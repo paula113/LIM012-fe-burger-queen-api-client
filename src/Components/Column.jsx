@@ -15,7 +15,7 @@ const Column = (prop) => {
       <td key={data}>{data}</td>) 
       :(
         <React.Fragment>
-          <td><img src={data.image}/></td>
+          <td><img src={data.image} alt=''/></td>
         {headers.map((header) =>
         <td key={header}>{header}</td>)}
         </React.Fragment>)}

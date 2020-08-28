@@ -32,7 +32,7 @@ const SearchBar = (props) => {
 
     };
     const list = []
-    const iDs = arrayData.forEach(element => {
+    arrayData.forEach(element => {
         switch (table) {
             case 'users':
                 list.push(element.email);

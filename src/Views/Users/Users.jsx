@@ -22,6 +22,7 @@ const Users = () => {
   const [allData, setAllData] = useState([]);
   const [page, setPage] = useState(initPage);
   const [display, setDisplay] = useState({});
+  const [query, setQuery] = useState(false);
 /**
  * infinito render 
  * asincronia del test
@@ -34,17 +35,19 @@ const Users = () => {
       //   setUsers(userData)
       // }
       //   fetchUser();
+      console.log('use effect');
       (async ()=> {
         try{
-          console.log('use efect');
-          const dataJson = await getData(page.current,'users');
-          const userData = dataJson.map((data) => {
-            data.roles = (data.roles.admin) ? 'admin' : 'service';
-            return data;
-          });
-           setUsers(userData);
+          console.log(query);
+            console.log('use efect');
+            const dataJson = await getData(page.current,'users');
+            const userData = dataJson.map((data) => {
+              data.roles = (data.roles.admin) ? 'admin' : 'service';
+              return data;
+            });
+            setUsers(userData);
+            // setQuery(query);
           ////-------
-          
           const allUsers = await getAllData('users');
           setAllData(allUsers);
           setPage(page => ({ ...page, total: Math.ceil((allUsers.length)/5) }));
@@ -52,9 +55,10 @@ const Users = () => {
         }catch(e){
           console.log(`Error: ${e}`);
         }
+          return () => setQuery(query);
       })()
       
-    },[users]);
+    },[query]);
 // PAGINATION
   //  const prev = () => {
   //    const prevPage = (page===0)? 1 :parseInt(page) -1;
@@ -65,7 +69,9 @@ const Users = () => {
   //    setPage(nextPage);
   // } 
   const currentPage = (thisPage) => {
+    setQuery(!query)
     setPage(page => ({...page, current: thisPage}));
+ 
   }
 //-------------------------UPDATE USER------------------------------//
 
@@ -73,6 +79,7 @@ const Users = () => {
       document.getElementById('email').value = data.email;
       document.getElementById('submitUser').textContent = 'Save changes';
       setDataToPut(data);
+      // setQuery(true)
     }
 
     async function userSubmit(event) {
@@ -86,29 +93,38 @@ const Users = () => {
         password : newPassword,
         roles : { admin : (newRol === 'admin') }
       }
-      console.log(body);
+      // console.log(body);
+      console.log(button.textContent === 'Save changes');
       if(button.textContent === 'Save changes'){
+        console.log('holaaaaa');
         //-------------------------UPDATE USER------------------------------//
-        await updateByKeyword(dataToPut.email, body,'users');
+        await updateByKeyword(dataToPut.email, body, 'users');
+        console.log('update');
+        setQuery(!query)
         document.getElementById('email').value= '';
         document.getElementById('password').value= '';
-        document.getElementById('submitProduct').textContent = 'Add User';
+        document.getElementById('submitUser').textContent = 'Add User';
+        console.log('llegue');
       } else {  
         //-------------------------POST NEW USER------------------------------//
         const userAdded =  await postbyKeyword(body,'users');
-        setDisplay(userAdded)
+        setDisplay(userAdded);
+        setQuery(!query)
         document.getElementById('email').value= '';
         document.getElementById('password').value= '';
         const msg = document.getElementsByTagName('strong');
         setTimeout(() => { 
           msg.textContent = ''
           setDisplay({})
-       }, 3000);
+       }, 2000);
 
       }
     };
  //-------------------------DELETE USER------------------------------//
-  const deleteBy = async (data) => await deletebyKeyword(data._id,'users');
+  const deleteBy = async (data) => {
+    await deletebyKeyword(data._id,'users');
+    setQuery(!query);
+  };
 
 const searchUserBy = async (e) =>{
   e.preventDefault();
@@ -119,9 +135,13 @@ const searchUserBy = async (e) =>{
   data.roles = (data.roles.admin) ? 'admin' : 'service';
   const array = [data];
   setUsers(array);
+  // setQuery(true)
+  }else{
+    setQuery(!query);
   }
   };
 
+console.log('return');
         return (
           <div className="users">
               <div className="containertop">
