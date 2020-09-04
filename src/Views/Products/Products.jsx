@@ -49,7 +49,7 @@ const Products = () => {
         }
       })()
 
-    },[query];
+    },[query]);
 // PAGINATION
   const currentPage = (thisPage) => {
     setQuery(!query)
