@@ -4,23 +4,24 @@ import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const Column = (prop) => {
   // const token = localStorage.getItem('token');
-  const { data , putData, deleteBy, type} = prop;
+  const {
+    data, putData, deleteBy, type,
+  } = prop;
   // delete products.image;
-  const headers =  Object.values(data);
+  const headers = Object.values(data);
 
   return (
     <tr>
-      {type === 'users' ? headers.map((data) => 
-      <td key={data}>{data}</td>) 
-      :(
-        <React.Fragment>
-          <td><img src={data.image} alt=''/></td>
-        {headers.map((header) =>
-        <td key={header}>{header}</td>)}
-        </React.Fragment>)}
+      {type === 'users' ? headers.map((data) => <td key={data}>{data}</td>)
+        : (
+          <>
+            <td><img src={data.image} alt="" /></td>
+            {headers.map((header) => <td key={header}>{header}</td>)}
+          </>
+        )}
       <td>
-        <FontAwesomeIcon icon={faTrash} onClick={() => { deleteBy(data) }}/>
-        <FontAwesomeIcon icon={faEdit} onClick={() => putData(data) }/>
+        <FontAwesomeIcon icon={faTrash} onClick={() => { deleteBy(data); }} />
+        <FontAwesomeIcon icon={faEdit} onClick={() => putData(data)} />
       </td>
     </tr>
   );

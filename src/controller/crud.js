@@ -11,7 +11,7 @@ const getAllData = async (table) => {
   const data = await fetch(`${url}/${table}`, requestOptions);
   const dataJson = await data.json();
   return dataJson;
-}
+};
 
 const getData = async (page, table) => {
   const requestOptions = {
@@ -25,13 +25,12 @@ const getData = async (page, table) => {
   switch (data.status) {
     case 200:
       const dataJson = await data.json();
-    return dataJson;
+      return dataJson;
     case 404:
-     throw new Error('No page found');
-     default:
+      throw new Error('No page found');
+    default:
       throw new Error(data.statusText);
   }
-  
 };
 
 const getByKeyword = async (keyword, table) => {
@@ -50,7 +49,7 @@ const getByKeyword = async (keyword, table) => {
       const dataJson = await data.json();
       return dataJson;
     case 403:
-      console.log('error ')
+      console.log('error ');
       break;
     default:
       return new Error(data.statusText);
@@ -66,19 +65,19 @@ const postbyKeyword = async (body, table) => {
     },
     body: JSON.stringify(body),
   };
- const data = await fetch(`${url}/${table}`, requestOptions);
-//  const dataJson = await data.json();
-//  return dataJson
-switch (data.status) {
-  case 200:
-    const dataJson = await data.json();
-    return dataJson;
-  case 403:
-    console.log('error ')
-    break;
-  default:
-    return new Error(data.statusText);
-}
+  const data = await fetch(`${url}/${table}`, requestOptions);
+  //  const dataJson = await data.json();
+  //  return dataJson
+  switch (data.status) {
+    case 200:
+      const dataJson = await data.json();
+      return dataJson;
+    case 403:
+      console.log('error ');
+      break;
+    default:
+      return new Error(data.statusText);
+  }
 };
 
 const deletebyKeyword = async (keyword, table) => {
@@ -89,23 +88,22 @@ const deletebyKeyword = async (keyword, table) => {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   };
- const data = await fetch(`${url}/${table}/${keyword}`, requestOptions);
-//  const dataJson = await data.json();
-//  return dataJson
-switch (data.status) {
-  case 200:
-    const dataJson = await data.json();
-    return dataJson;
-  case 403:
-    console.log('error ')
-    break;
-  default:
-    return new Error(data.statusText);
-}
+  const data = await fetch(`${url}/${table}/${keyword}`, requestOptions);
+  //  const dataJson = await data.json();
+  //  return dataJson
+  switch (data.status) {
+    case 200:
+      const dataJson = await data.json();
+      return dataJson;
+    case 403:
+      console.log('error ');
+      break;
+    default:
+      return new Error(data.statusText);
+  }
 };
 
-
-const updateByKeyword = async (keyword , body, table) => {
+const updateByKeyword = async (keyword, body, table) => {
   const requestOptions = {
     method: 'PUT',
     headers: {
@@ -120,13 +118,12 @@ const updateByKeyword = async (keyword , body, table) => {
       const dataJson = await data.json();
       return dataJson;
     case 403:
-      console.log('error ')
+      console.log('error ');
       break;
     default:
       return new Error(data.statusText);
   }
 };
-
 
 export {
   getAllData,

@@ -20,10 +20,13 @@ const NavBar = (prop) => {
           <li><Link to={`${url}/products`}>Products</Link></li>
           <li><Link to={`${url}/orders`}>Orders</Link></li>
         </ul>
-        <ExitToAppIcon className="icon" onClick={() => {
-          localStorage.removeItem('token');
-          history.push('/');
-        }}   />
+        <ExitToAppIcon
+          className="icon"
+          onClick={() => {
+            localStorage.removeItem('token');
+            history.push('/');
+          }}
+        />
       </nav>
 
       <Switch>
