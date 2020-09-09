@@ -44,8 +44,6 @@ const Products = () => {
             setProducts(dataJson);
             setPage({ current: prevPage , total: page.total-1});
           }
-        } finally{
-          return () => setQuery(query);
         }
       })()
 
