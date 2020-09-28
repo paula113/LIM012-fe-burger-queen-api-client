@@ -1,16 +1,24 @@
 
 @import '../App.scss';
+*{
+  padding: 0;
+  margin: 0;
+}
 
 
 @mixin NavBar {
   nav {
-    @include direccionFlex(row);
-    height: 4vh;
+    background-color: $baseColor-2;
+
+    // @include direccionFlex(row);
+    // height: 4vh;
     img{
-      width: 10vw;
+    //  background-color: moccasin;
+     height: 3rem;
+     margin-left: 2%;
     }
     overflow: hidden;
-    background-color: $baseColor-2;
+    // background-color: $baseColor-2;
     position: fixed;
     top: 0;
     width: 100vw;
@@ -99,7 +107,10 @@
 
 // ---
 .navBarComponent{
-  @include NavBar()
+  height: 10vh;
+  position: fixed;
+
+  @include NavBar();
 }
 
 .tableComponent{

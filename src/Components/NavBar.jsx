@@ -12,7 +12,7 @@ import Orders from '../Views/Orders/Orders';
 const NavBar = (prop) => {
   const { path, url, history } = prop;
   return (
-    <div className="navBarComponent">
+    <header className="navBarComponent">
       <nav>
         <img alt="" src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/bd2da1a0fc4e35daafdb4d20d19a2c03b9610ebe/src/assests/Vectorburger.svg" />
         <ul>
@@ -43,7 +43,7 @@ const NavBar = (prop) => {
           <Orders />
         </Route>
       </Switch>
-    </div>
+    </header>
   );
 };
 export default withRouter(NavBar);

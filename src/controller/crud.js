@@ -22,9 +22,10 @@ const getData = async (page, table) => {
     },
   };
   const data = await fetch(`${url}/${table}?page=${page}&limit=5`, requestOptions);
+  const dataJson = await data.json();
   switch (data.status) {
     case 200:
-      const dataJson = await data.json();
+      console.log(dataJson);
       return dataJson;
     case 404:
       throw new Error('No page found');
