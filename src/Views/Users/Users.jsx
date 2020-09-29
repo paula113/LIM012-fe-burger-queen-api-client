@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Users.scss';
+import { useForm } from 'react-hook-form';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
 import fetchState from '../../Utils/customHooks';
@@ -16,31 +17,27 @@ import {
 const Users = () => {
   const table = { head: ['id', 'Email', 'Rol'], type: 'users' };
   const initPage = { current: 1, total: 1 };
+  const initUser = {
+    email: '',
+    password: '',
+    roles: { admin: 'service' },
+  };
   // -------------------------STATE------------------------------//
   const [users, setUsers] = useState([]);
   const [dataToPut, setDataToPut] = useState({});
+  const [updateIcon, setUpdateIcon] = useState(false);
   const [allData, setAllData] = useState([]);
   const [page, setPage] = useState(initPage);
   const [display, setDisplay] = useState({});
-  const [query, setQuery] = useState(false);
+  const [userDetails, setUserDetails] = useState({});
+  const { register, errors, handleSubmit } = useForm();
+
+  // const [query, setQuery] = useState(false);
   // -------------------------GET USER------------------------------//
   useEffect(() => {
-    // async function fetchUser(){
-    //   const userData = await getUsers(page);
-    //   setUsers(userData)
-    // }
-    //   fetchUser();
     console.log('use effect render!');
-    // fetchState();
-
-    // return () => console.log('unmounting...');
-
-    // --------------------------
-    // try {
-    // console.log('ok', page.current);
-    console.log('use efect');
     getData(page.current, 'users')
-      .then((dataJson) => dataJson.map((element) => (element.roles.admin ? { ...element, roles: 'admin' } : { ...element, roles: 'service' })))
+      .then((dataJson) => dataJson.reverse().map((element) => (element.roles.admin ? { ...element, roles: 'admin' } : { ...element, roles: 'service' })))
       .then((usersJson) => {
         setUsers(usersJson);
         setPage((pages) => ({ ...pages, total: Math.ceil((usersJson.length) / 5) }));
@@ -58,18 +55,7 @@ const Users = () => {
           // setPage({ current: prevPage, total: page.total - 1 });
         }
       });
-
-    // console.log(users);
-    //   const allUsers = await getAllData('users');
-    //   setAllData(allUsers);
-
-    //   /// /-------
-    // // } catch (e) {
-
-    // } finally {
-    //   return () => setQuery(query);
-    // }
-  }, [query]);
+  }, []);
   // PAGINATION
   //  const prev = () => {
   //    const prevPage = (page===0)? 1 :parseInt(page) -1;
@@ -79,57 +65,33 @@ const Users = () => {
   //   const nextPage = (page===0)? 1 :parseInt(page) +1;
   //    setPage(nextPage);
   // }
-  const currentPage = (thisPage) => {
-    setQuery(!query);
-    setPage((page) => ({ ...page, current: thisPage }));
-  };
+  const currentPage = (thisPage) => setPage((newPage) => ({ ...newPage, current: thisPage }));
   // -------------------------UPDATE USER------------------------------//
 
   function putData(data) {
+    console.log(data);
     document.getElementById('email').value = data.email;
     document.getElementById('submitUser').textContent = 'Save changes';
     setDataToPut(data);
     // setQuery(true)
   }
-
-  async function userSubmit(event) {
-    event.preventDefault();
-    const button = document.getElementById('submitUser');
-    const newEmail = document.getElementById('email').value;
-    const newRol = document.getElementById('roles').value;
-    const newPassword = document.getElementById('password').value;
+  const onSubmit = (userData) => {
+    const { userEmail, userPassword, userRoles } = userData;
     const body = {
-      email: newEmail,
-      password: newPassword,
-      roles: { admin: (newRol === 'admin') },
+      email: userEmail,
+      password: userPassword,
+      roles: { admin: (userRoles === 'admin') },
     };
-    // console.log(body);
-    console.log(button.textContent === 'Save changes');
-    if (button.textContent === 'Save changes') {
-      // -------------------------UPDATE USER------------------------------//
-      await updateByKeyword(dataToPut.email, body, 'users');
-      setQuery(!query);
-      document.getElementById('email').value = '';
-      document.getElementById('password').value = '';
-      document.getElementById('submitUser').textContent = 'Add User';
-    } else {
-      // -------------------------POST NEW USER------------------------------//
-      const userAdded = await postbyKeyword(body, 'users');
-      setDisplay(userAdded);
-      setQuery(!query);
-      document.getElementById('email').value = '';
-      document.getElementById('password').value = '';
-      const msg = document.getElementsByTagName('strong');
-      setTimeout(() => {
-        msg.textContent = '';
-        setDisplay({});
-      }, 4000);
+    if (!updateIcon) {
+      postbyKeyword(body, 'users')
+        .then((resp) => users.push.apply([resp]))// add to users
+        .catch((e) => { console.log(e); });// show on inteface
     }
-  }
+  };
   // -------------------------DELETE USER------------------------------//
   const deleteBy = async (data) => {
     await deletebyKeyword(data._id, 'users');
-    setQuery(!query);
+    // setQuery(!query);
   };
 
   const searchUserBy = async (e) => {
@@ -143,14 +105,14 @@ const Users = () => {
       setUsers(array);
       // setQuery(true)
     } else {
-      setQuery(!query);
+      // setQuery(!query);
     }
   };
   return (
     <div className="users">
       <div className="containertop">
         <img src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/e60c452ad793ea90d9e698f0fef3d6d190862ce8/src/assests/istockphoto-1049751988-612x612-removebg-preview%201.svg" alt="" />
-        <form className="form" onSubmit={(e) => userSubmit(e)}>
+        <form className="form" onSubmit={handleSubmit(onSubmit)}>
           {(display.email) ? (
             <strong>
               {display.email}
@@ -158,17 +120,67 @@ const Users = () => {
               successfully added
             </strong>
           ) : null}
-          <input placeholder="Email" id="email" type="email" name="email" />
-          <input placeholder="Password" id="password" name="password" type="password" minLength={6} />
-          <select name="roles" id="roles">
+          <input
+            placeholder="Email"
+            id="userEmail"
+            // value={userDetails.email}
+            type="email"
+            name="userEmail"
+            ref={register({
+              required: {
+                value: true,
+                message: 'Email es requerido',
+              },
+            })}
+          />
+          {errors.userEmail
+                && (
+                <span>
+                  {errors.userEmail.message}
+                </span>
+                )}
+          <input
+            placeholder="Password"
+            // value={userDetails.password}
+            id="userPassword"
+            name="userPassword"
+            type="password"
+            ref={register({
+              required: {
+                value: true,
+                message: 'Password es requerido',
+              },
+              minLength: {
+                value: 6,
+                message: 'Mínimo 4 carácteres',
+              },
+            })}
+          />
+          {errors.userPassword
+                && (
+                <span>
+                  {errors.userPassword.message}
+                </span>
+                )}
+          <select
+            name="userRoles"
+            id="roles"
+            ref={register}
+          >
             <option value="service">Service</option>
             <option value="admin">Admin</option>
           </select>
-          <button type="submit" id="submitUser">Add user</button>
+          <button type="submit" id="submitUser">Submit</button>
         </form>
       </div>
       <SearchBar arrayData={allData} searchUserBy={searchUserBy} table="users" />
-      <Table table={table} arrayData={users} putData={putData} deleteBy={deleteBy} />
+      <Table
+        table={table}
+        arrayData={users}
+        putData={putData}
+        deleteBy={deleteBy}
+        setUpdateIcon={setUpdateIcon}
+      />
       <Pagination page={page} currentPage={currentPage} />
     </div>
   );

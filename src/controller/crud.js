@@ -67,11 +67,10 @@ const postbyKeyword = async (body, table) => {
     body: JSON.stringify(body),
   };
   const data = await fetch(`${url}/${table}`, requestOptions);
-  //  const dataJson = await data.json();
+  const dataJson = await data.json();
   //  return dataJson
   switch (data.status) {
     case 200:
-      const dataJson = await data.json();
       return dataJson;
     case 403:
       console.log('error ');

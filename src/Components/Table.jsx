@@ -20,8 +20,6 @@ const Table = (props) => {
   //     </table>
   //   );
   // }
-  console.log(table);
-  console.log(arrayData);
   return (
     <table className="tableComponent">
       <thead>
@@ -31,7 +29,15 @@ const Table = (props) => {
       </thead>
       <tbody>
         {arrayData
-          ? arrayData.map((data) => <Column type={table.type} key={data.id} data={data} putData={putData} deleteBy={deleteBy} />)
+          ? arrayData.map((data) => (
+            <Column
+              type={table.type}
+              key={data._id}
+              data={data}
+              putData={putData}
+              deleteBy={deleteBy}
+            />
+          ))
           : <span>UPS! Somthing happend</span>}
       </tbody>
     </table>
