@@ -12,7 +12,7 @@ const Column = (prop) => {
 
   return (
     <tr>
-      {type === 'users' ? headers.map((data) => <td key={data}>{data}</td>)
+      {type === 'users' ? headers.map((dataHeader) => <td key={dataHeader}>{dataHeader}</td>)
         : (
           <>
             <td><img src={data.image} alt="" /></td>

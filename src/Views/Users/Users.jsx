@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Users.scss';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
+import fetchState from '../../Utils/customHooks';
 import SearchBar from '../../Components/searchBar';
 import {
   getAllData,
@@ -29,36 +30,45 @@ const Users = () => {
     //   setUsers(userData)
     // }
     //   fetchUser();
-    console.log('use effect');
-    (async () => {
-      try {
-        console.log('ok', page.current);
-        console.log('use efect');
-        const dataJson = await getData(page.current, 'users');
-        const userData = dataJson.map((data) => {
-          data.roles = (data.roles.admin) ? 'admin' : 'service';
-          return data;
-        });
-        setUsers(userData);
-        const allUsers = await getAllData('users');
-        setAllData(allUsers);
-        setPage((page) => ({ ...page, total: Math.ceil((allUsers.length) / 5) }));
-        /// /-------
-      } catch (e) {
+    console.log('use effect render!');
+    // fetchState();
+
+    // return () => console.log('unmounting...');
+
+    // --------------------------
+    // try {
+    // console.log('ok', page.current);
+    console.log('use efect');
+    getData(page.current, 'users')
+      .then((dataJson) => dataJson.map((element) => (element.roles.admin ? { ...element, roles: 'admin' } : { ...element, roles: 'service' })))
+      .then((usersJson) => {
+        setUsers(usersJson);
+        setPage((pages) => ({ ...pages, total: Math.ceil((usersJson.length) / 5) }));
+      })
+      .catch((e) => {
         if (e.message === 'No page found') {
-          const prevPage = page.current - 1;
-          const dataJson = await getData(prevPage, 'users');
-          const userData = dataJson.map((data) => {
-            data.roles = (data.roles.admin) ? 'admin' : 'service';
-            return data;
-          });
-          setUsers(userData);
-          setPage({ current: prevPage, total: page.total - 1 });
+          console.log(e.message);
+          // const prevPage = page.current - 1;
+          // const dataJson = await getData(prevPage, 'users');
+          // const userData = dataJson.map((data) => {
+          //   data.roles = (data.roles.admin) ? 'admin' : 'service';
+          //   return data;
+          // });
+          // setUsers(userData);
+          // setPage({ current: prevPage, total: page.total - 1 });
         }
-      } finally {
-        return () => setQuery(query);
-      }
-    })();
+      });
+
+    // console.log(users);
+    //   const allUsers = await getAllData('users');
+    //   setAllData(allUsers);
+
+    //   /// /-------
+    // // } catch (e) {
+
+    // } finally {
+    //   return () => setQuery(query);
+    // }
   }, [query]);
   // PAGINATION
   //  const prev = () => {

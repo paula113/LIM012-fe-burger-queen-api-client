@@ -8,17 +8,15 @@
 
 @mixin NavBar {
   nav {
+    height: 8vh;
+   position: fixed;
+   z-index: 1;
     background-color: $baseColor-2;
-
-    // @include direccionFlex(row);
-    // height: 4vh;
     img{
-    //  background-color: moccasin;
      height: 3rem;
      margin-left: 2%;
     }
     overflow: hidden;
-    // background-color: $baseColor-2;
     position: fixed;
     top: 0;
     width: 100vw;
@@ -28,7 +26,6 @@
       text-align: center;
       list-style-type: none;
       margin-top: .3rem;
-      // margin: 0;
       padding: 15px;
       li {
         display: inline;
@@ -47,18 +44,16 @@
     .icon{
 
       color: white;
-      height: 2.5rem;
-      width: 2.5rem;
-      margin-right: 2rem;
-      margin-top: .3rem;
+      height: 1.5rem;
+      width: 1.5rem;
+      margin: 1rem;
     }
   } 
 }
 
 @mixin Table {
   border-collapse: collapse;
-	width: 100%;
-  margin: 0 0 2em;
+  width: 90%;  
 	thead {
 		border-bottom: 3px solid $baseColor-2;
 		th {
@@ -107,16 +102,15 @@
 
 // ---
 .navBarComponent{
-  height: 10vh;
-  position: fixed;
-
   @include NavBar();
+  .tableComponent{
+    margin: 0 auto;
+    @include Table();
+  }
+  
+  .paginationComponent{
+    margin: 0 auto;
+    @include Pagination()
+  }
 }
 
-.tableComponent{
-  @include Table()
-}
-
-.paginationComponent{
-  @include Pagination()
-}
