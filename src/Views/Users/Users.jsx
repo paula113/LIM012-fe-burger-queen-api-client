@@ -3,7 +3,7 @@ import './Users.scss';
 import { useForm } from 'react-hook-form';
 import Table from '../../Components/Table';
 import Pagination from '../../Components/Pagination';
-import fetchState from '../../Utils/customHooks';
+// import fetchState from '../../Utils/customHooks';
 import SearchBar from '../../Components/searchBar';
 import {
   getAllData,
@@ -36,11 +36,13 @@ const Users = () => {
   // -------------------------GET USER------------------------------//
   useEffect(() => {
     console.log('use effect render!');
+    getAllData('users').then((Totalusers) => setPage((pages) => ({ ...pages, total: Math.ceil((Totalusers.length) / 5) })))
+      .catch((e) => console.log(e.message));
     getData(page.current, 'users')
       .then((dataJson) => dataJson.reverse().map((element) => (element.roles.admin ? { ...element, roles: 'admin' } : { ...element, roles: 'service' })))
       .then((usersJson) => {
+        console.log(usersJson);
         setUsers(usersJson);
-        setPage((pages) => ({ ...pages, total: Math.ceil((usersJson.length) / 5) }));
       })
       .catch((e) => {
         if (e.message === 'No page found') {
@@ -55,17 +57,17 @@ const Users = () => {
           // setPage({ current: prevPage, total: page.total - 1 });
         }
       });
-  }, []);
-  // PAGINATION
-  //  const prev = () => {
-  //    const prevPage = (page===0)? 1 :parseInt(page) -1;
-  //    setPage(prevPage);
-  //  }
-  //  const next = () => {
-  //   const nextPage = (page===0)? 1 :parseInt(page) +1;
-  //    setPage(nextPage);
-  // }
-  const currentPage = (thisPage) => setPage((newPage) => ({ ...newPage, current: thisPage }));
+  }, [page.current]);
+  // PAGINATION;
+  // const prev = () => {
+  //   const prevPage = (page === 0) ? 1 : Number(page) - 1;
+  //   setPage(prevPage);
+  // };
+  // const next = () => {
+  //   const nextPage = (page === 0) ? 1 : Number(page) + 1;
+  //   setPage(nextPage);
+  // };
+  // const currentPage = (thisPage) => setPage((newPage) => ({ ...newPage, current: thisPage }));
   // -------------------------UPDATE USER------------------------------//
 
   function putData(data) {
@@ -84,7 +86,9 @@ const Users = () => {
     };
     if (!updateIcon) {
       postbyKeyword(body, 'users')
-        .then((resp) => users.push.apply([resp]))// add to users
+        .then((resp) => {
+          users.push(resp);
+        })// add to users
         .catch((e) => { console.log(e); });// show on inteface
     }
   };
@@ -181,7 +185,7 @@ const Users = () => {
         deleteBy={deleteBy}
         setUpdateIcon={setUpdateIcon}
       />
-      <Pagination page={page} currentPage={currentPage} />
+      <Pagination page={page} setPage={setPage} />
     </div>
   );
 };

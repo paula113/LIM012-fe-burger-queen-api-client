@@ -22,10 +22,11 @@ const getData = async (page, table) => {
     },
   };
   const data = await fetch(`${url}/${table}?page=${page}&limit=5`, requestOptions);
+  // const pages =
   const dataJson = await data.json();
   switch (data.status) {
     case 200:
-      console.log(dataJson);
+      // console.log(dataJson);
       return dataJson;
     case 404:
       throw new Error('No page found');
@@ -43,11 +44,11 @@ const getByKeyword = async (keyword, table) => {
     },
   };
   const data = await fetch(`${url}/${table}/${keyword}`, requestOptions);
-  // const dataJson = await data.json();
+  const dataJson = await data.json();
   // return dataJson;
   switch (data.status) {
     case 200:
-      const dataJson = await data.json();
+      // const dataJson = await data.json();
       return dataJson;
     case 403:
       console.log('error ');

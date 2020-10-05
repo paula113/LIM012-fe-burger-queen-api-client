@@ -2,22 +2,41 @@ import React from 'react';
 import './Components.scss';
 
 export default function Pagination(props) {
-  const { page, currentPage } = props;
-  const pages = Array.from(Array(page.total).keys());
+  const {
+    page, setPage,
+  } = props;
+  const mapPages = Array.from(Array(page.total).keys());
   return (
     <div className="paginationComponent">
-      <ul className="pagination">
-        {/* <li><a onClick={prev}>«</a></li> */}
-        {pages.map((num) => (
-          <li
-            key={num}
-            onClick={() => currentPage(Number(num) + 1)}
-          >
-            {Number(num) + 1}
-          </li>
-        ))}
-        {/* <li><a onClick={next}>»</a></li> */}
-      </ul>
+      {
+        page.current === 1
+          ? (
+            mapPages.map((item) => {
+              switch (item) {
+                case (mapPages.length - 1):
+                  return <button key={item} type="button" onClick={() => setPage((pages) => ({ ...pages, current: (page.current + 1) }))}>»</button>;
+                default:
+                  return <button key={item} type="button" onClick={() => setPage((pages) => ({ ...pages, current: (item + 1) }))}>{item + 1}</button>;
+              }
+            })
+
+          )
+          : (
+            mapPages.map((item) => {
+              switch (item) {
+                case 0:
+                  return <button key={item} type="button" onClick={() => setPage((pages) => ({ ...pages, current: (page.current - 1) }))}>«</button>;
+                case (mapPages.length - 1):
+                  return <button key={item} type="button" onClick={() => setPage((pages) => ({ ...pages, current: (page.current + 1) }))}>»</button>;
+                default:
+                  return <button key={item} type="button" onClick={() => setPage((pages) => ({ ...pages, current: (item + 1) }))}>{item + 1}</button>;
+              }
+            })
+          )
+
+      }
+
     </div>
   );
 }
+//
