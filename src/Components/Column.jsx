@@ -3,15 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const Column = (prop) => {
-  // const token = localStorage.getItem('token');
   const {
     data, putData, deleteBy, type,
   } = prop;
-  // delete products.image;
   const headers = Object.values(data);
 
   return (
     <tr>
+      <td className="td-icon">
+        <FontAwesomeIcon className="delete" icon={faTrash} onClick={() => { deleteBy(data); }} />
+      </td>
       {type === 'users' ? headers.map((dataHeader) => <td key={dataHeader}>{dataHeader}</td>)
         : (
           <>
@@ -19,9 +20,14 @@ const Column = (prop) => {
             {headers.map((header) => <td key={header}>{header}</td>)}
           </>
         )}
-      <td>
-        <FontAwesomeIcon icon={faTrash} onClick={() => { deleteBy(data); }} />
-        <FontAwesomeIcon icon={faEdit} onClick={() => putData(data)} />
+      <td className="td-icon">
+        <FontAwesomeIcon
+          className="edit"
+          icon={faEdit}
+          onClick={() => {
+            putData(data);
+          }}
+        />
       </td>
     </tr>
   );

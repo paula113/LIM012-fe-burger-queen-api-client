@@ -114,9 +114,9 @@ const updateByKeyword = async (keyword, body, table) => {
     body: JSON.stringify(body),
   };
   const data = await fetch(`${url}/${table}/${keyword}`, requestOptions);
+  const dataJson = await data.json();
   switch (data.status) {
     case 200:
-      const dataJson = await data.json();
       return dataJson;
     case 403:
       console.log('error ');

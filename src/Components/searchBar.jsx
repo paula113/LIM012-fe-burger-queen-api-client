@@ -6,8 +6,11 @@ import SearchIcon from '@material-ui/icons/Search';
 const SearchBar = (props) => {
   const [display, setDisplay] = useState(false);
   const [search, setSearch] = useState('');
-  const wrapperRef = useRef(null); // devuelve un objeto ref mutable cuya propiedad (.current) se inicializa con el argumento pasado
-  const { arrayData, searchUserBy, table } = props;
+  const wrapperRef = useRef(null);
+  // devuelve un objeto ref mutable cuya propiedad (.current) se inicializa con el argumento pasado
+  const {
+    allData, searchUserBy, table, setDisplayPagination,
+  } = props;
 
   useEffect(() => {
     document.addEventListener('mousedown', clickOutside);
@@ -29,7 +32,7 @@ const SearchBar = (props) => {
     }
   };
   const list = [];
-  arrayData.forEach((element) => {
+  allData.forEach((element) => {
     switch (table) {
       case 'users':
         list.push(element.email);
@@ -78,7 +81,15 @@ const SearchBar = (props) => {
                     list
                       .filter((item) => item.indexOf(search) > -1)
                       .map((user, i) => (
-                        <li key={i} onClick={() => userSelected(user)} tabIndex="0">
+                        <li
+                          key={user}
+                          onClick={() => {
+                            userSelected(user);
+                            setDisplayPagination(false);
+                          }}
+                          role="presentation"
+                          tabIndex={i}
+                        >
                           {' '}
                           {user}
                         </li>

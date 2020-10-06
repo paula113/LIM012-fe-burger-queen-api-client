@@ -15,7 +15,7 @@ import {
 } from '../../controller/crud';
 
 const Users = () => {
-  const table = { head: ['id', 'Email', 'Rol'], type: 'users' };
+  const table = { head: ['', 'id', 'Email', 'Rol'], type: 'users' };
   const initPage = { current: 1, total: 1 };
   const initUser = {
     email: '',
@@ -25,18 +25,20 @@ const Users = () => {
   // -------------------------STATE------------------------------//
   const [users, setUsers] = useState([]);
   const [dataToPut, setDataToPut] = useState({});
-  const [updateIcon, setUpdateIcon] = useState(false);
+  // const [updateIcon, setUpdateIcon] = useState(false);
   const [allData, setAllData] = useState([]);
   const [page, setPage] = useState(initPage);
-  const [display, setDisplay] = useState({});
+  const [displayPagination, setDisplayPagination] = useState(true);
   const [userDetails, setUserDetails] = useState({});
   const { register, errors, handleSubmit } = useForm();
 
-  // const [query, setQuery] = useState(false);
   // -------------------------GET USER------------------------------//
   useEffect(() => {
     console.log('use effect render!');
-    getAllData('users').then((Totalusers) => setPage((pages) => ({ ...pages, total: Math.ceil((Totalusers.length) / 5) })))
+    getAllData('users').then((allUsersData) => {
+      setPage((pages) => ({ ...pages, total: Math.ceil((allUsersData.length) / 5) }));
+      return setAllData(allUsersData);
+    })
       .catch((e) => console.log(e.message));
     getData(page.current, 'users')
       .then((dataJson) => dataJson.reverse().map((element) => (element.roles.admin ? { ...element, roles: 'admin' } : { ...element, roles: 'service' })))
@@ -57,26 +59,13 @@ const Users = () => {
           // setPage({ current: prevPage, total: page.total - 1 });
         }
       });
+    return () => {
+      console.log('clean up');
+    };
   }, [page.current]);
-  // PAGINATION;
-  // const prev = () => {
-  //   const prevPage = (page === 0) ? 1 : Number(page) - 1;
-  //   setPage(prevPage);
-  // };
-  // const next = () => {
-  //   const nextPage = (page === 0) ? 1 : Number(page) + 1;
-  //   setPage(nextPage);
-  // };
-  // const currentPage = (thisPage) => setPage((newPage) => ({ ...newPage, current: thisPage }));
-  // -------------------------UPDATE USER------------------------------//
 
-  function putData(data) {
-    console.log(data);
-    document.getElementById('email').value = data.email;
-    document.getElementById('submitUser').textContent = 'Save changes';
-    setDataToPut(data);
-    // setQuery(true)
-  }
+  const putData = (data) => setDataToPut(data);
+
   const onSubmit = (userData) => {
     const { userEmail, userPassword, userRoles } = userData;
     const body = {
@@ -84,18 +73,32 @@ const Users = () => {
       password: userPassword,
       roles: { admin: (userRoles === 'admin') },
     };
-    if (!updateIcon) {
-      postbyKeyword(body, 'users')
+    if (dataToPut) {
+      updateByKeyword(dataToPut._id, body, 'users')
         .then((resp) => {
-          users.push(resp);
-        })// add to users
+          console.log(resp);
+          setPage((pages) => ({ ...pages, current: (page.current) })); // Should re render
+          setDataToPut(() => ({
+            ...initUser,
+          }));
+          setUserDetails(() => ({
+            ...initUser,
+          }));
+        })
+        .catch((err) => console.log(err));
+    } else {
+      postbyKeyword(body, 'users')
+        .then(() => ((page.current !== page.total)
+          ? setPage((pages) => ({ ...pages, current: (page.total) }))
+          : console.log(page.current, page.total)))
         .catch((e) => { console.log(e); });// show on inteface
     }
   };
   // -------------------------DELETE USER------------------------------//
-  const deleteBy = async (data) => {
-    await deletebyKeyword(data._id, 'users');
-    // setQuery(!query);
+  const deleteBy = (data) => {
+    deletebyKeyword(data._id, 'users').then(() => {
+      setPage((pages) => ({ ...pages, current: (page.current) }));
+    });
   };
 
   const searchUserBy = async (e) => {
@@ -117,22 +120,24 @@ const Users = () => {
       <div className="containertop">
         <img src="https://raw.githubusercontent.com/paula113/LIM012-fe-burger-queen-api-client/e60c452ad793ea90d9e698f0fef3d6d190862ce8/src/assests/istockphoto-1049751988-612x612-removebg-preview%201.svg" alt="" />
         <form className="form" onSubmit={handleSubmit(onSubmit)}>
-          {(display.email) ? (
-            <strong>
-              {display.email}
+          {(dataToPut.email) ? (
+            <h3>
+              Edit
               {' '}
-              successfully added
-            </strong>
+              {dataToPut.roles}
+              {'  '}
+              {dataToPut.email}
+            </h3>
           ) : null}
           <input
             placeholder="Email"
             id="userEmail"
-            // value={userDetails.email}
+            defaultValue={userDetails.email ? dataToPut.email : userDetails.email}
             type="email"
             name="userEmail"
             ref={register({
               required: {
-                value: true,
+                // value: true,
                 message: 'Email es requerido',
               },
             })}
@@ -145,13 +150,13 @@ const Users = () => {
                 )}
           <input
             placeholder="Password"
-            // value={userDetails.password}
+            // defaultValue={dataToPut.password ? dataToPut.password : ''}
             id="userPassword"
             name="userPassword"
             type="password"
             ref={register({
               required: {
-                value: true,
+                // value: true,
                 message: 'Password es requerido',
               },
               minLength: {
@@ -177,15 +182,24 @@ const Users = () => {
           <button type="submit" id="submitUser">Submit</button>
         </form>
       </div>
-      <SearchBar arrayData={allData} searchUserBy={searchUserBy} table="users" />
+      <SearchBar
+        allData={allData}
+        searchUserBy={searchUserBy}
+        setDisplayPagination={setDisplayPagination}
+        table="users"
+      />
       <Table
         table={table}
         arrayData={users}
         putData={putData}
         deleteBy={deleteBy}
-        setUpdateIcon={setUpdateIcon}
+        // setUpdateIcon={setUpdateIcon}
       />
-      <Pagination page={page} setPage={setPage} />
+      {
+        displayPagination
+          ? <Pagination page={page} setPage={setPage} />
+          : null
+      }
     </div>
   );
 };
